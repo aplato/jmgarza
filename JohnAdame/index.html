@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Adamé • WWII Journal &amp; Movie Chronicle (1942–1945)</title>
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-brand">
+            <span class="star-icon">★</span>
+            <div class="brand-titles">
+                <h1>John Adamé</h1>
+                <span class="sub-title">WWII Pacific Chronicle &amp; Movie Journal (1942–1945)</span>
+            </div>
+        </div>
+        <nav class="nav-tabs" aria-label="View Switcher">
+            <button class="nav-tab active" data-view="story" id="tab-story">📖 Story Walkthrough</button>
+            <button class="nav-tab" data-view="posters" id="tab-posters">🎞️ Movie Posters (303)</button>
+            <button class="nav-tab" data-view="journal" id="tab-journal">📓 Journal Index (402)</button>
+        </nav>
+        <div class="header-actions">
+            <a href="https://photos.app.goo.gl/hjhDGiVrYHD2E5WU8" target="_blank" rel="noopener" class="header-link-btn" title="View photographed journal pages">
+                📷 Journal Scans ↗
+            </a>
+            <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+                🌓 <span class="theme-label">Theme</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-workspace">
+        <!-- Story View Panel (Map + Archival Desk) -->
+        <section id="view-story" class="view-panel active">
+            <div id="map-canvas"></div>
+            <div id="story-desk"></div>
+        </section>
+
+        <!-- Movie Poster Wall Panel -->
+        <section id="view-posters" class="view-panel" style="display: none;">
+            <div id="poster-wall-container"></div>
+        </section>
+
+        <!-- Full Journal Index Panel -->
+        <section id="view-journal" class="view-panel" style="display: none;">
+            <div id="journal-table-container"></div>
+        </section>
+
+        <div id="app" style="display: none;"></div>
+    </main>
+
+    <!-- Persistent Bottom Timeline Dock -->
+    <footer id="timeline-dock" class="timeline-dock"></footer>
+
+    <!-- Vendor Libraries, Data, and App Entry Point -->
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="data/journal-data.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

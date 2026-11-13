@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Adamé's WW2 Journal (1942–1945)</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --ink: #1f1e1b;
+      --muted: #5e5b52;
+      --accent: #3b4d3b;
+      --accent-light: #e8ede8;
+      --border: #dcd6cb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 1.75rem 1.25rem;
+      border-bottom: 4px solid #283628;
+    }
+    .container { max-width: 1140px; margin: 0 auto; }
+    h1 { margin: 0 0 0.35rem 0; font-size: 1.85rem; }
+    .subtitle { margin: 0; opacity: 0.9; font-size: 0.98rem; }
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .tab-btn.active {
+      background: #fff;
+      color: var(--accent);
+      border-color: #fff;
+    }
+    .controls {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1.25rem auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    @media (max-width: 780px) { .controls { grid-template-columns: 1fr; } }
+    input, select, button {
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--ink);
+    }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .stats-bar {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .view-panel { display: none; padding-bottom: 3rem; }
+    .view-panel.active { display: block; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 640px) { .card { grid-template-columns: 1fr; } }
+    .thumb-wrap { text-align: center; }
+    .thumb-wrap img {
+      width: 100%;
+      max-width: 160px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 4px;
+      background: var(--accent-light);
+      color: var(--accent);
+      margin-right: 0.4rem;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.76rem;
+      border-radius: 4px;
+      background: #f0ece3;
+      color: var(--muted);
+      margin: 0.15rem 0.25rem 0.15rem 0;
+    }
+    .card h2 { margin: 0.2rem 0 0.4rem 0; font-size: 1.2rem; }
+    .meta-line { font-size: 0.85rem; color: var(--muted); }
+    .text-box {
+      background: #faf8f5;
+      border-left: 3px solid var(--accent);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.93rem;
+      margin: 0.65rem 0;
+      white-space: pre-line;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table.data-table th, table.data-table td {
+      border-bottom: 1px solid var(--border);
+      padding: 0.55rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.data-table th { background: #f3efe6; font-weight: 600; }
+    .notes { font-size: 0.84rem; color: var(--muted); margin-top: 0.5rem; padding-left: 1.1rem; }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal.open { display: flex; }
+    .modal img { max-width: 95vw; max-height: 90vh; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>John Adamé's WW2 Journal (1942–1945)</h1>
+    <p class="subtitle">
+      Cpl. John Adamé — 110th Tactical Reconnaissance Squadron (71st Recon Group, Fifth Air Force)
+    </p>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchView('pages', this)">📖 All 80 Journal Pages</button>
+      <button class="tab-btn" onclick="switchView('aircraft', this)">✈️ Aircraft & Crew Chief Roster</button>
+      <button class="tab-btn" onclick="switchView('timeline', this)">🗓️ Chronological Service Timeline</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div id="view-pages" class="view-panel active">
+    <section class="controls">
+      <input type="search" id="search-input" placeholder="Search movies, pilots, crew chiefs, P-39/P-40 serials, places, dates..." />
+      <select id="section-filter"><option value="">All Sections (11)</option></select>
+      <select id="location-filter"><option value="">All Locations (69)</option></select>
+      <button class="primary" id="reset-btn" type="button">Reset</button>
+    </section>
+    <div class="stats-bar">
+      <span id="results-count">Loading journal index...</span>
+      <span>Click any page thumbnail to inspect the original scan</span>
+    </div>
+    <div class="grid" id="pages-grid"></div>
+  </div>
+
+  <div id="view-aircraft" class="view-panel" style="margin-top:1.5rem;">
+    <input type="search" id="ac-search" placeholder="Filter by tail #, serial #, model (P-39 / P-40), pilot, or Crew Chief..." style="width:100%; margin-bottom:1rem;" />
+    <table class="data-table" id="ac-table">
+      <thead>
+        <tr>
+          <th>Tail #</th>
+          <th>Model</th>
+          <th>Airframe S.N.</th>
+          <th>Engine S.N. (V-1710)</th>
+          <th>Crew Chief</th>
+          <th>Operational History & Disposition</th>
+          <th>Pages</th>
+        </tr>
+      </thead>
+      <tbody id="ac-tbody"></tbody>
+    </table>
+  </div>
+
+  <div id="view-timeline" class="view-panel" style="margin-top:1.5rem;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date Span</th>
+          <th>Section</th>
+          <th>Page & Title</th>
+          <th>Locations</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody id="timeline-tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<div class="modal" id="image-modal" onclick="this.classList.remove('open')">
+  <img id="modal-img" src="" alt="Full Page Scan" />
+</div>
+
+<script>
+  let journalData = null;
+
+  const masterAircraft = [
+    { tail: "10", model: "P-39Q-15", asn: "44-2449", esn: "A-034739 -> 42-160955", chief: "Wells", notes: "Rec'd 7-27-44 (14th Adrm); engine swapped 9-9-44", pages: [66,67,68,74] },
+    { tail: "11", model: "P-39Q-6", asn: "42-20361", esn: "42-98736 -> 42-98475", chief: "Creighton", notes: "Engine swapped 9-4 / 9-9-44 with 305th Adrm Sq.", pages: [65,66,69,72,78] },
+    { tail: "12", model: "P-39Q-11", asn: "42-21194", esn: "42-100755", chief: "Berenzo", notes: "Active fleet; checked ok", pages: [68,72,77] },
+    { tail: "13", model: "P-39Q-11", asn: "42-21191", esn: "42-100254", chief: "Monte", notes: "Active fleet; checked ok", pages: [68,72,78] },
+    { tail: "(14)", model: "P-39Q-6", asn: "42-19999", esn: "42-27428", chief: "—", notes: "LOST IN COMBAT 7-3-44 at Tadji (Lt. Sparks, 302:05 hrs)", pages: [18,35,36,76,78] },
+    { tail: "15", model: "P-39N-5", asn: "42-19034", esn: "42-97760", chief: "Weiss", notes: "Crash-landed & transferred out 8-11-44 (411:35 hrs)", pages: [69,71,72,73,75,78] },
+    { tail: "16", model: "P-39N-5", asn: "42-18993", esn: "42-96917", chief: "Munyer", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "17", model: "P-39Q-6", asn: "42-20009", esn: "42-98247 -> 42-100332", chief: "Shirley", notes: "Engine swapped 7-1-44 at 362:30 hrs", pages: [69,72,76,78,79] },
+    { tail: "18", model: "P-39N-5", asn: "42-18808", esn: "42-100333", chief: "Hand", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "19", model: "P-39Q-6", asn: "42-20007", esn: "42-98091", chief: "—", notes: "Transferred out 7-16-44 to 305th Airdrome Sq.", pages: [75,78] },
+    { tail: "20", model: "P-39Q-6", asn: "42-19933", esn: "42-97885 -> 42-100340", chief: "Beeres", notes: "LOST IN COMBAT 8-13-44 at Tadji (Lt. Sharky, crashed at sea)", pages: [18,41,69,70,72,74,75,78] },
+    { tail: "(21)", model: "P-39N-5", asn: "42-18813", esn: "42-97575", chief: "—", notes: "LOST IN COMBAT 7-6-44 at Tadji (Lt. Eggud, 562:25 hrs)", pages: [18,35,36,76,78] },
+    { tail: "-22", model: "P-39N-5", asn: "42-19027", esn: "42-98243", chief: "—", notes: "Transferred out 6-19-44 to 305th Adrm Sq. (519:55 hrs)", pages: [79] },
+    { tail: "23", model: "P-39N-5", asn: "42-18883", esn: "42-99663 -> 42-99679", chief: "Black", notes: "Transferred 8-24-44; rec'd back 9-4-44 (643:15 hrs)", pages: [66,69,70,72,78] },
+    { tail: "25", model: "P-39N-5", asn: "42-19012", esn: "42-97569", chief: "Richardson", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "26 (I)", model: "P-39Q-6", asn: "42-19991", esn: "42-98137", chief: "—", notes: "Transferred out 7-10-44", pages: [75,78] },
+    { tail: "26 (II)", model: "P-39Q-20", asn: "44-3574", esn: "A-037588", chief: "Rice", notes: "Rec'd 7-29-44 (120:30 hrs) from 14th Adrm Sq.", pages: [68,73] },
+    { tail: "27", model: "P-39Q-11", asn: "42-21192", esn: "42-100182", chief: "Brown", notes: "Active fleet; checked ok", pages: [68,72,78] },
+    { tail: "28", model: "P-39Q-20", asn: "44-3562", esn: "A-039670", chief: "Harrington", notes: "Rec'd 7-29-44 (48:30 hrs) from 14th Adrm Sq.", pages: [68,73] },
+    { tail: "29", model: "P-39Q-5", asn: "42-20349", esn: "42-98658", chief: "Glynn", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "30", model: "P-39Q-6", asn: "42-19997", esn: "42-98089 -> 42-98597", chief: "Raver", notes: "Engine swapped 7-24 / 8-3-44 (390:30 hrs)", pages: [69,71,72,73,74,78] },
+    { tail: "31", model: "P-39Q-11", asn: "42-21195", esn: "42-100777", chief: "Kearins", notes: "Active fleet; checked ok", pages: [68,72,77] },
+    { tail: "32", model: "P-39Q-11", asn: "42-21189", esn: "42-100741", chief: "Valentine", notes: "Active fleet; checked ok", pages: [68,72,78] },
+    { tail: "33", model: "P-39N-5", asn: "42-19007", esn: "42-98761", chief: "—", notes: "Transferred 6-10-44 to 482nd Serv. Sq. (Gusap)", pages: [80] },
+    { tail: "34", model: "P-39Q-5", asn: "42-19941", esn: "42-97918", chief: "Kaminski", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "35", model: "P-39N-1", asn: "42-18405", esn: "42-27497", chief: "Hochstein", notes: "Damaged 6-18-44; repaired & returned to service", pages: [69,72,78,79] },
+    { tail: "36", model: "P-39N-5", asn: "42-18992", esn: "42-97435", chief: "Creager", notes: "Active fleet; checked ok", pages: [69,72,78] },
+    { tail: "40", model: "P-39Q-15", asn: "44-2438", esn: "42-100389", chief: "—", notes: "Rec'd 7-21-44; crash-landed & transferred 8-9-44", pages: [68,71,73] },
+    { tail: "—", model: "P-40N-5", asn: "42-105915", esn: "42-85599", chief: "Delap", notes: "Transferred 7-4-44; rec'd 8-3-44; transferred 9-12-44", pages: [65,68,71,76,77] },
+    { tail: "—", model: "P-40N-5", asn: "42-105507", esn: "42-107700", chief: "—", notes: "Rec'd 7-8 / 7-11-44 (315:05 hrs); checked ok", pages: [72,75,77] },
+    { tail: "—", model: "P-40N-5", asn: "42-104951", esn: "43-11044", chief: "—", notes: "Active P-40N-5 in 110th Recon Sq.", pages: [77,80] },
+    { tail: "—", model: "P-40N-5", asn: "42-104966", esn: "43-10496", chief: "—", notes: "Transferred 6-11-44 to 386th Serv. Sq. (499:25 hrs)", pages: [80] }
+  ];
+
+  function switchView(viewName, btn) {
+    document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`view-${viewName}`).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  async function initJournal() {
+    const res = await fetch('./john-adame-ww2-journal-index.json');
+    journalData = await res.json();
+
+    const secSelect = document.getElementById('section-filter');
+    journalData.metadata.sections.forEach(sec => {
+      const opt = document.createElement('option');
+      opt.value = sec; opt.textContent = sec;
+      secSelect.appendChild(opt);
+    });
+
+    const locSelect = document.getElementById('location-filter');
+    journalData.metadata.locations.forEach(loc => {
+      const opt = document.createElement('option');
+      opt.value = loc; opt.textContent = loc;
+      locSelect.appendChild(opt);
+    });
+
+    renderPages();
+    renderAircraft();
+    renderTimeline();
+  }
+
+  function openModal(src) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('image-modal').classList.add('open');
+  }
+
+  function renderAircraft() {
+    const q = (document.getElementById('ac-search').value || '').toLowerCase();
+    const tbody = document.getElementById('ac-tbody');
+    tbody.innerHTML = masterAircraft
+      .filter(a => `${a.tail} ${a.model} ${a.asn} ${a.esn} ${a.chief} ${a.notes}`.toLowerCase().includes(q))
+      .map(a => `
+        <tr>
+          <td><strong>${a.tail}</strong></td>
+          <td><code>${a.model}</code></td>
+          <td><code>${a.asn}</code></td>
+          <td><code>${a.esn}</code></td>
+          <td><strong>${a.chief}</strong></td>
+          <td>${a.notes}</td>
+          <td>${a.pages.map(p => `p.${p}`).join(', ')}</td>
+        </tr>
+      `).join('');
+  }
+
+  function renderTimeline() {
+    const tbody = document.getElementById('timeline-tbody');
+    const sorted = [...journalData.pages].sort((a, b) => a.date_start.localeCompare(b.date_start));
+    tbody.innerHTML = sorted.map(p => `
+      <tr>
+        <td style="white-space:nowrap;"><code>${p.date_start}</code><br><small>to ${p.date_end}</small></td>
+        <td><span class="badge">${p.section}</span></td>
+        <td><strong>Page ${p.page}</strong> — ${p.title}</td>
+        <td>${(p.locations || []).join(', ') || '—'}</td>
+        <td>${p.text.slice(0, 220)}${p.text.length > 220 ? '...' : ''}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderPages() {
+    const q = document.getElementById('search-input').value.trim().toLowerCase();
+    const sec = document.getElementById('section-filter').value;
+    const loc = document.getElementById('location-filter').value;
+    const grid = document.getElementById('pages-grid');
+
+    const filtered = journalData.pages.filter(p => {
+      if (sec && p.section !== sec) return false;
+      if (loc && !p.locations.includes(loc)) return false;
+      if (!q) return true;
+      const haystack = [
+        `page ${p.page}`, p.title, p.section, p.date_start, p.date_end, p.text,
+        ...(p.locations || []), ...(p.people || []), ...(p.aircraft || []), ...(p.review_notes || []),
+        ...(p.movies || []).map(m => `${m.num} ${m.title} ${m.location} ${m.date}`)
+      ].join(' ').toLowerCase();
+      return haystack.includes(q);
+    });
+
+    document.getElementById('results-count').textContent =
+      `Showing ${filtered.length} of ${journalData.pages.length} pages`;
+
+    grid.innerHTML = filtered.map(p => {
+      const tagsHtml = [
+        ...(p.locations || []).map(l => `<span class="tag">📍 ${l}</span>`),
+        ...(p.people || []).map(person => `<span class="tag">👤 ${person}</span>`),
+        ...(p.aircraft || []).map(ac => `<span class="tag">✈️ ${ac}</span>`)
+      ].join('');
+
+      let bodyHtml = '';
+      if (p.movies && p.movies.length > 0) {
+        const rows = p.movies.map(m => `
+          <tr><td>${m.num}</td><td><strong>${m.title}</strong></td><td>${m.location}</td><td>${m.date}</td></tr>
+        `).join('');
+        bodyHtml = `<table class="data-table" style="margin-top:0.6rem;"><thead><tr><th>#</th><th>Movie Title</th><th>Location</th><th>Date</th></tr></thead><tbody>${rows}</tbody></table>`;
+      } else {
+        bodyHtml = `<div class="text-box">${p.text}</div>`;
+      }
+
+      const notesHtml = (p.review_notes && p.review_notes.length)
+        ? `<ul class="notes">${p.review_notes.map(n => `<li>${n}</li>`).join('')}</ul>`
+        : '';
+
+      return `
+        <article class="card">
+          <div class="thumb-wrap">
+            <img src="${p.image}" alt="Page ${p.page}" loading="lazy" onclick="openModal('${p.image}')" />
+            <div style="font-size:0.8rem; margin-top:0.35rem; color:var(--muted);">
+              Page ${p.page} (${Math.round(p.confidence * 100)}% conf.)
+            </div>
+          </div>
+          <div>
+            <div>
+              <span class="badge">${p.section}</span>
+              <span class="meta-line">📅 ${p.date_start} to ${p.date_end}</span>
+            </div>
+            <h2>Page ${p.page} — ${p.title}</h2>
+            <div>${tagsHtml}</div>
+            ${bodyHtml}
+            ${notesHtml}
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('search-input').addEventListener('input', renderPages);
+  document.getElementById('section-filter').addEventListener('change', renderPages);
+  document.getElementById('location-filter').addEventListener('change', renderPages);
+  document.getElementById('ac-search').addEventListener('input', renderAircraft);
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    document.getElementById('search-input').value = '';
+    document.getElementById('section-filter').value = '';
+    document.getElementById('location-filter').value = '';
+    renderPages();
+  });
+
+  initJournal();
+</script>
+</body>
+</html>
