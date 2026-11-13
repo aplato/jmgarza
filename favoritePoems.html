@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>My Favorite Poems</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Special+Elite&family=Eagle+Lake&family=Reenie+Beanie&display=swap" rel="stylesheet">
+		<style type="text/css">
+:root,
+:root[data-theme="light"] {
+	--bg-color: #ffffff;
+	--text-color: #16161d;
+	--border-color: #888888;
+	--link-color: #0b57d0;
+	--link-visited-color: #681da8;
+	--control-bg: #f0f0ec;
+	--control-border: #c4c4be;
+	--control-active-bg: #16161d;
+	--control-active-text: #e9e9e2;
+	color-scheme: light;
+}
+
+/* Eigengray (#16161d) is rgb(22, 22, 29) from black (#000000);
+   its symmetric contrast from white (#ffffff) is rgb(233, 233, 226) = #e9e9e2 */
+:root[data-theme="dark"] {
+	--bg-color: #16161d;
+	--text-color: #e9e9e2;
+	--border-color: #5a5a66;
+	--link-color: #9ecbff;
+	--link-visited-color: #d2b8ff;
+	--control-bg: #24242f;
+	--control-border: #454554;
+	--control-active-bg: #e9e9e2;
+	--control-active-text: #16161d;
+	color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--bg-color: #16161d;
+		--text-color: #e9e9e2;
+		--border-color: #5a5a66;
+		--link-color: #9ecbff;
+		--link-visited-color: #d2b8ff;
+		--control-bg: #24242f;
+		--control-border: #454554;
+		--control-active-bg: #e9e9e2;
+		--control-active-text: #16161d;
+		color-scheme: dark;
+	}
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	font-size: 1.0625rem;
+	line-height: 1.6;
+	margin: 0 auto;
+	padding: 3.5rem 1.5rem 2.5rem;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	overflow-wrap: break-word;
+}
+
+a {
+	color: var(--link-color);
+}
+
+a:visited {
+	color: var(--link-visited-color);
+}
+
+hr {
+	border: none;
+	border-top: 1px solid var(--border-color);
+}
+
+blockquote {
+	max-width: 100%;
+}
+
+.theme-control {
+	position: fixed;
+	top: 0.75rem;
+	right: 0.75rem;
+	z-index: 1000;
+	display: inline-flex;
+	align-items: center;
+	background: var(--control-bg);
+	border: 1px solid var(--control-border);
+	border-radius: 999px;
+	padding: 0.2rem;
+	gap: 0.15rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	font-family: system-ui, -apple-system, sans-serif;
+	font-size: 0.85rem;
+}
+
+.theme-control button {
+	appearance: none;
+	border: none;
+	background: transparent;
+	color: var(--text-color);
+	padding: 0.3rem 0.65rem;
+	border-radius: 999px;
+	font: inherit;
+	font-weight: 500;
+	cursor: pointer;
+	line-height: 1.2;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.theme-control button[aria-pressed="true"] {
+	background: var(--control-active-bg);
+	color: var(--control-active-text);
+}
+
+.theme-control button:focus-visible {
+	outline: 2px solid var(--link-color);
+	outline-offset: 2px;
+}
+
+.hangIndent {
+    margin: 0 0 0.35em 0;
+	padding-left: 25px;
+	text-indent: -25px;
+}
+			
+.special-elite-regular {
+    font-family: "Special Elite", system-ui;
+	font-weight: 400;
+	font-style: normal;
+}
+            
+.cedarville-cursive-regular {
+  font-family: "Cedarville Cursive", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.25em;
+}
+
+.eagle-lake-regular {
+  font-family: "Eagle Lake", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.reenie-beanie-regular {
+  font-family: "Reenie Beanie", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.65em;
+  line-height: 1.35;
+}
+
+.poem {
+	margin-bottom: 3rem;
+	max-width: 100%;
+}
+
+.poem-index {
+	margin-bottom: 2em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.poem-index ul {
+	columns: 2;
+	padding-left: 1.25em;
+}
+
+.poem-index li {
+	break-inside: avoid;
+	margin-bottom: 0.45em;
+}
+
+.return-to-index {
+	margin-top: 1.5em;
+}
+
+@media (max-width: 600px) {
+	body {
+		font-size: 1.125rem;
+		line-height: 1.65;
+		padding: 3.75rem 1rem 2rem;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+		line-height: 1.3;
+	}
+
+	h2 {
+		font-size: 1.25rem;
+	}
+
+	blockquote {
+		margin-left: 0.75rem;
+		margin-right: 0.5rem;
+	}
+
+	.reenie-beanie-regular {
+		font-size: 1.75em;
+		line-height: 1.35;
+	}
+
+	.poem-index ul {
+		columns: 1;
+	}
+
+	.poem-index li {
+		margin-bottom: 0.6em;
+	}
+}
+
+		</style>
+	</head>
+	<body>
+		<div class="theme-control" role="group" aria-label="Theme selection">
+			<button type="button" data-theme-value="light" aria-pressed="false">Light</button>
+			<button type="button" data-theme-value="dark" aria-pressed="false">Dark</button>
+			<button type="button" data-theme-value="auto" aria-pressed="true">Auto</button>
+		</div>
+        <div class="poem eagle-lake-regular">
+            <h1>
+                The Place Where We Are Right
+            </h1>
+            <p class="author">
+				Yehuda Amichai
+			</p>
+
+            <blockquote>
+                From the place where we are right<br />
+                flowers will never grow<br />
+                in the spring.<br />
+            </blockquote>
+            <blockquote>
+                The place where we are right<br />
+                is hard and trampled<br />
+                like a yard.<br />
+            </blockquote>
+            <blockquote>
+                But doubts and loves<br />
+                dig up the world<br />
+                like a mole, a plow.<br />
+                And a whisper will be heard in the place<br />
+                where the ruined<br />
+                house once stood.<br />
+            </blockquote>
+        </div>
+		<div class="poem">
+			<h1>
+				The Hollow Men
+			</h1>
+			<p>
+				<i>
+					Mistah Kurtz&mdash;he dead.<br />
+					A penny for the Old Guy
+				</i>
+			</p>
+			<div>
+				<h2>
+					I</h2>
+				<blockquote>
+					We are the hollow men<br />
+					We are the stuffed men<br />
+					Leaning together<br />
+					Headpiece filled with straw. Alas!<br />
+					Our dried voices, when<br />
+					We whisper together<br />
+					Are quiet and meaningless<br />
+					As wind in dry grass<br />
+					Or rats' feet over broken glass<br />
+					In our dry cellar<br />
+				</blockquote>
+				<blockquote>
+					Shape without form, shade without colour,<br />
+					Paralysed force, gesture without motion;<br />
+				</blockquote>
+				<blockquote>
+					Those who have crossed<br />
+					With direct eyes, to death's other Kingdom<br />
+					Remember us&mdash;if at all&mdash;not as lost<br />
+					Violent souls, but only<br />
+					As the hollow men<br />
+					The stuffed men.<br />
+				</blockquote>
+			</div>
+			<div>
+				<h2>
+					II
+				</h2>
+				<blockquote>
+					Eyes I dare not meet in dreams<br />
+					In death's dream kingdom<br />
+					These do not appear:<br />
+					There, the eyes are<br />
+					Sunlight on a broken column<br />
+					There, is a tree swinging<br />
+					And voices are<br />
+					In the wind's singing<br />
+					More distant and more solemn<br />
+					Than a fading star.<br />
+				</blockquote>
+				<blockquote>
+					Let me be no nearer<br />
+					In death's dream kingdom<br />
+					Let me also wear<br />
+					Such deliberate disguises<br />
+					Rat's coat, crowskin, crossed staves<br />
+					In a field<br />
+					Behaving as the wind behaves<br />
+					No nearer&mdash;<br />
+				</blockquote>
+				<blockquote>
+					Not that final meeting<br />
+					In the twilight kingdom<br />
+				</blockquote>
+			</div>
+			<div>
+				<h2>
+					III
+				</h2>
+				<blockquote>
+					This is the dead land<br />
+					This is cactus land<br />
+					Here the stone images<br />
+					Are raised, here they receive<br />
+					The supplication of a dead man's hand<br />
+					Under the twinkle of a fading star.<br />
+				</blockquote>
+				<blockquote>
+					Is it like this<br />
+					In death's other kingdom<br />
+					Waking alone<br />
+					At the hour when we are<br />
+					Trembling with tenderness<br />
+					Lips that would kiss<br />
+					Form prayers to broken stone.<br />
+				</blockquote>
+			</div>
+			<div>
+				<h2>
+					IV
+				</h2>
+				<blockquote>
+					The eyes are not here<br />
+					There are no eyes here<br />
+					In this valley of dying stars<br />
+					In this hollow valley<br />
+					This broken jaw of our lost kingdoms<br />
+				</blockquote>
+				<blockquote>
+					In this last of meeting places<br />
+					We grope together<br />
+					And avoid speech<br />
+					Gathered on this beach of the tumid river<br />
+				</blockquote>
+				<blockquote>
+					Sightless, unless<br />
+					The eyes reappear<br />
+					As the perpetual star<br />
+					Multifoliate rose<br />
+					Of death's twilight kingdom<br />
+					The hope only<br />
+					Of empty men.<br />
+				</blockquote>
+			</div>
+			<div>
+				<h2>
+					V
+				</h2>
+				<blockquote>
+					<i>
+						Here we go round the prickly pear<br />
+						Prickly pear prickly pear<br />
+						Here we go round the prickly pear<br />
+						At five o'clock in the morning.<br />
+					</i>
+				</blockquote>
+				<blockquote>
+					Between the idea<br />
+					And the reality<br />
+					Between the motion<br />
+					And the act<br />
+					Falls the Shadow<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<i>For Thine is the Kingdom</i>
+				</blockquote>
+				<blockquote>
+					Between the conception<br />
+					And the creation<br />
+					Between the emotion<br />
+					And the response<br />
+					Falls the Shadow<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<i>Life is very long</i>
+				</blockquote>
+				<blockquote>
+					Between the desire<br />
+					And the spasm<br />
+					Between the potency<br />
+					And the existence<br />
+					Between the essence<br />
+					And the descent<br />
+					Falls the Shadow<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<i>For Thine is the Kingdom</i>
+				</blockquote>
+				<blockquote>
+					For Thine is<br />
+					Life is<br />
+					For Thine is the<br />
+				</blockquote>
+				<blockquote>
+					<i>This is the way the world ends<br />
+						This is the way the world ends<br />
+						This is the way the world ends<br />
+						Not with a bang but a whimper.<br />
+					</i>
+				</blockquote>
+			</div>
+			<p class="author">
+				T. S. Eliot
+			</p>
+		</div>
+		<div class="poem">
+			<h1>
+				Stopping by Woods on a Snowy Evening
+			</h1>
+			<blockquote>
+				Whose woods these are I think I know.<br />
+				His house is in the village though;<br />
+				He will not see me stopping here<br />
+				To watch his woods fill up with snow.<br />
+			</blockquote>
+			<blockquote>
+				My little horse must think it queer<br />
+				To stop without a farmhouse near<br />
+				Between the woods and frozen lake<br />
+				The darkest evening of the year.<br />
+			</blockquote>
+			<blockquote>
+				He gives his harness bells a shake<br />
+				To ask if there is some mistake.<br />
+				The only other sound's the sweep<br />
+				Of easy wind and downy flake.<br />
+			</blockquote>
+			<blockquote>
+				The woods are lovely, dark and deep,<br />
+				But I have promises to keep,<br />
+				And miles to go before I sleep,<br />
+				And miles to go before I sleep.<br />
+			</blockquote>
+			<p class="author">
+				Robert Frost
+			</p>
+		</div>
+		<div class="poem">
+			<h1>
+				Howl
+			</h1>
+			<div>
+				For Carl Solomon
+			</div>
+			<div class="reenie-beanie-regular">
+				<h2>
+					I</h2>
+				<p class="hangIndent">
+					I saw the best minds of my generation destroyed by madness, starving hysterical
+					naked,
+				</p>
+				<p class="hangIndent">
+					dragging themselves through the negro streets at dawn looking for an angry fix,
+				</p>
+				<p class="hangIndent">
+					angelheaded hipsters burning for the ancient heavenly connection to the starry dynamo
+					in the machinery of night,
+				</p>
+				<p class="hangIndent">
+					who poverty and tatters and hollow-eyed and high sat up smoking in the supernatural
+					darkness of cold-water flats floating across the tops of cities contemplating jazz,
+				</p>
+				<p class="hangIndent">
+					who bared their brains to Heaven under the El and saw Mohammedan angels staggering
+					on tenement roofs illuminated,
+				</p>
+				<p class="hangIndent">
+					who passed through universities with radiant cool eyes hallucinating Arkansas and
+					Blake-light tragedy among the scholars of war,
+				</p>
+				<p class="hangIndent">
+					who were expelled from the academies for crazy &amp; publishing obscene odes on the
+					windows of the skull,
+				</p>
+				<p class="hangIndent">
+					who cowered in unshaven rooms in underwear, burning their money in wastebaskets
+					and listening to the Terror through the wall,
+				</p>
+				<p class="hangIndent">
+					who got busted in their pubic beards returning through Laredo with a belt of marijuana
+					for New York,
+				</p>
+				<p class="hangIndent">
+					who ate fire in paint hotels or drank turpentine in Paradise Alley, death, or purgatoried
+					their torsos night after night
+				</p>
+				<p class="hangIndent">
+					with dreams, with drugs, with waking nightmares, alcohol and cock and endless
+					balls,
+				</p>
+				<p class="hangIndent">
+					incomparable blind; streets of shuddering cloud and lightning in the mind leaping
+					toward poles of Canada &amp; Paterson, illuminating all the motionless world of Time
+					between,
+				</p>
+				<p class="hangIndent">
+					Peyote solidities of halls, backyard green tree cemetery dawns, wine drunkenness
+					over the rooftops, storefront boroughs of teahead joyride neon blinking traffic
+					light, sun and moon and tree vibrations in the roaring winter dusks of Brooklyn,
+					ashcan rantings and kind king light of mind,
+				</p>
+				<p class="hangIndent">
+					who chained themselves to subways for the endless ride from Battery to holy Bronx
+					on benzedrine until the noise of wheels and children brought them down shuddering
+					mouth-wracked and battered bleak of brain all drained of brilliance in the drear
+					light of Zoo,
+				</p>
+				<p class="hangIndent">
+					who sank all night in submarine light of Bickford's floated out and sat through
+					the stale beer after noon in desolate Fugazzi's, listening to the crack of doom
+					on the hydrogen jukebox,
+				</p>
+				<p class="hangIndent">
+					who talked continuously seventy hours from park to pad to bar to Bellevue to museum
+					to the Brooklyn Bridge,
+				</p>
+				<p class="hangIndent">
+					lost battalion of platonic conversationalists jumping down the stoops off fire escapes
+					off windowsills off Empire State out of the moon,
+				</p>
+				<p class="hangIndent">
+					yacketayakking screaming vomiting whispering facts and memories and anecdotes and
+					eyeball kicks and shocks of hospitals and jails and wars,
+				</p>
+				<p class="hangIndent">
+					whole intellects disgorged in total recall for seven days and nights with brilliant
+					eyes, meat for the Synagogue cast on the pavement,
+				</p>
+				<p class="hangIndent">
+					who vanished into nowhere Zen New Jersey leaving a trail of ambiguous picture postcards
+					of Atlantic City Hall,
+				</p>
+				<p class="hangIndent">
+					suffering Eastern sweats and Tangerian bone-grindings and migraines of China under
+					junk-withdrawal in Newark's bleak furnished room,
+				</p>
+				<p class="hangIndent">
+					who wandered around and around at midnight in the railroad yard wondering where
+					to go, and went, leaving no broken hearts,
+				</p>
+				<p class="hangIndent">
+					who lit cigarettes in boxcars boxcars boxcars racketing through snow toward lonesome
+					farms in grandfather night,
+				</p>
+				<p class="hangIndent">
+					who studied Plotinus Poe St. John of the Cross telepathy and bop kabbalah because
+					the cosmos instinctively vibrated at their feet in Kansas,
+				</p>
+				<p class="hangIndent">
+					who loned it through the streets of Idaho seeking visionary indian angels who
+					were visionary indian angels,
+				</p>
+				<p class="hangIndent">
+					who thought they were only mad when Baltimore gleamed in supernatural ecstasy,
+				</p>
+				<p class="hangIndent">
+					who jumped in limousines with the Chinaman of Oklahoma on the impulse of winter
+					midnight street light smalltown rain,
+				</p>
+				<p class="hangIndent">
+					who lounged hungry and lonesome through Houston seeking jazz or sex or soup, and
+					followed the brilliant Spaniard to converse about America and Eternity, a hopeless
+					task, and so took ship to Africa,
+				</p>
+				<p class="hangIndent">
+					who disappeared into the volcanoes of Mexico leaving behind nothing but the shadow
+					of dungarees and the lava and ash of poetry scattered in fire place Chicago,
+				</p>
+				<p class="hangIndent">
+					who reappeared on the West Coast investigating the F.B.I. in beards and shorts with
+					big pacifist eyes sexy in their dark skin passing out incomprehensible leaflets,
+				</p>
+				<p class="hangIndent">
+					who burned cigarette holes in their arms protesting the narcotic tobacco haze of
+					Capitalism,
+				</p>
+				<p class="hangIndent">
+					who distributed Supercommunist pamphlets in Union Square weeping and undressing
+					while the sirens of Los Alamos wailed them down, and wailed down Wall, and the Staten
+					Island ferry also wailed,
+				</p>
+				<p class="hangIndent">
+					who broke down crying in white gymnasiums naked and trembling before the machinery
+					of other skeletons,
+				</p>
+				<p class="hangIndent">
+					who bit detectives in the neck and shrieked with delight in policecars for committing
+					no crime but their own wild cooking pederasty and intoxication,
+				</p>
+				<p class="hangIndent">
+					who howled on their knees in the subway and were dragged off the roof waving genitals
+					and manuscripts,
+				</p>
+				<p class="hangIndent">
+					who let themselves be fucked in the ass by saintly motorcyclists, and screamed with
+					joy,
+				</p>
+				<p class="hangIndent">
+					who blew and were blown by those human seraphim, the sailors, caresses of Atlantic
+					and Caribbean love,
+				</p>
+				<p class="hangIndent">
+					who balled in the morning in the evenings in rose gardens and the grass of public
+					parks and cemeteries scattering their semen freely to whomever come who may,
+				</p>
+				<p class="hangIndent">
+					who hiccuped endlessly trying to giggle but wound up with a sob behind a partition
+					in a Turkish Bath when the blond &amp; naked angel came to pierce them with a sword,
+				</p>
+				<p class="hangIndent">
+					who lost their loveboys to the three old shrews of fate the one eyed shrew of the
+					heterosexual dollar the one eyed shrew that winks out of the womb and the one eyed
+					shrew that does nothing but sit on her ass and snip the intellectual golden threads
+					of the craftsman's loom,
+				</p>
+				<p class="hangIndent">
+					who copulated ecstatic and insatiate with a bottle of beer a sweetheart a package
+					of cigarettes a candle and fell off the bed, and continued along the floor and
+					down the hall and ended fainting on the wall with a vision of ultimate cunt and
+					come eluding the last gyzym of consciousness,
+				</p>
+				<p class="hangIndent">
+					who sweetened the snatches of a million girls trembling in the sunset, and were
+					red eyed in the morning but prepared to sweeten the snatch of the sun rise, flashing
+					buttocks under barns and naked in the lake,
+				</p>
+				<p class="hangIndent">
+					who went out whoring through Colorado in myriad stolen night-cars, N.C., secret
+					hero of these poems, cocksman and Adonis of Denver-joy to the memory of his innumerable
+					lays of girls in empty lots &amp; diner backyards, moviehouses' rickety rows, on mountaintops
+					in caves or with gaunt waitresses in familiar roadside lonely petticoat upliftings
+					&amp; especially secret gas-station solipsisms of johns, &amp; hometown alleys too,
+				</p>
+				<p class="hangIndent">
+					who faded out in vast sordid movies, were shifted in dreams, woke on a sudden Manhattan,
+					and picked themselves up out of basements hung over with heartless Tokay and horrors
+					of Third Avenue iron dreams &amp; stumbled to unemployment offices,
+				</p>
+				<p class="hangIndent">
+					who walked all night with their shoes full of blood on the snowbank docks waiting
+					for a door in the East River to open to a room full of steamheat and opium,
+				</p>
+				<p class="hangIndent">
+					who created great suicidal dramas on the apartment cliff-banks of the Hudson under
+					the wartime blue floodlight of the moon &amp; their heads shall be crowned with laurel
+					in oblivion,
+				</p>
+				<p class="hangIndent">
+					who ate the lamb stew of the imagination or digested the crab at the muddy bottom
+					of the rivers of Bowery,
+				</p>
+				<p class="hangIndent">
+					who wept at the romance of the streets with their pushcarts full of onions and bad
+					music,
+				</p>
+				<p class="hangIndent">
+					who sat in boxes breathing in the darkness under the bridge, and rose up to build
+					harpsichords in their lofts,
+				</p>
+				<p class="hangIndent">
+					who coughed on the sixth floor of Harlem crowned with flame under the tubercular
+					sky surrounded by orange crates of theology,
+				</p>
+				<p class="hangIndent">
+					who scribbled all night rocking and rolling over lofty incantations which in the
+					yellow morning were stanzas of gibberish,
+				</p>
+				<p class="hangIndent">
+					who cooked rotten animals lung heart feet tail borsht &amp; tortillas dreaming of the
+					pure vegetable kingdom,
+				</p>
+				<p class="hangIndent">
+					who plunged themselves under meat trucks looking for an egg,
+				</p>
+				<p class="hangIndent">
+					who threw their watches off the roof to cast their ballot for Eternity outside of
+					Time, &amp; alarm clocks fell on their heads every day for the next decade,
+				</p>
+				<p class="hangIndent">
+					who cut their wrists three times successively unsuccessfully, gave up and were
+					forced to open antique stores where they thought they were growing old and cried,
+				</p>
+				<p class="hangIndent">
+					who were burned alive in their innocent flannel suits on Madison Avenue amid blasts
+					of leaden verse &amp; the tanked-up clatter of the iron regiments of fashion &amp; the nitroglycerine
+					shrieks of the fairies of advertising &amp; the mustard gas of sinister intelligent
+					editors, or were run down by the drunken taxicabs of Absolute Reality,
+				</p>
+				<p class="hangIndent">
+					who jumped off the Brooklyn Bridge this actually happened and walked away unknown
+					and forgotten into the ghostly daze of Chinatown soup alley ways &amp; firetrucks, not
+					even one free beer,
+				</p>
+				<p class="hangIndent">
+					who sang out of their windows in despair, fell out of the subway window, jumped
+					in the filthy Passaic, leaped on negroes, cried all over the street, danced on
+					broken wineglasses barefoot smashed phonograph records of nostalgic European 1930s
+					German jazz finished the whiskey and threw up groaning into the bloody toilet, moans
+					in their ears and the blast of colossal steam whistles,
+				</p>
+				<p class="hangIndent">
+					who barreled down the highways of the past journeying to each other's hotrod-Golgotha
+					jail-solitude watch or Birmingham jazz incarnation,
+				</p>
+				<p class="hangIndent">
+					who drove crosscountry seventytwo hours to find out if I had a vision or you had
+					a vision or he had a vision to find out Eternity,
+				</p>
+				<p class="hangIndent">
+					who journeyed to Denver, who died in Denver, who came back to Denver &amp; waited in
+					vain, who watched over Denver &amp; brooded &amp; loned in Denver and finally went away
+					to find out the Time, &amp; now Denver is lonesome for her heroes,
+				</p>
+				<p class="hangIndent">
+					who fell on their knees in hopeless cathedrals praying for each other's salvation
+					and light and breasts, until the soul illuminated its hair for a second,
+				</p>
+				<p class="hangIndent">
+					who crashed through their minds in jail waiting for impossible criminals with golden
+					heads and the charm of reality in their hearts who sang sweet blues to Alcatraz,
+				</p>
+				<p class="hangIndent">
+					who retired to Mexico to cultivate a habit, or Rocky Mount to tender Buddha or Tangiers
+					to boys or Southern Pacific to the black locomotive or Harvard to Narcissus to Woodlawn
+					to the daisychain or grave,
+				</p>
+				<p class="hangIndent">
+					who demanded sanity trials accusing the radio of hyp notism &amp; were left with their
+					insanity &amp; their hands &amp; a hung jury,
+				</p>
+				<p class="hangIndent">
+					who threw potato salad at CCNY lecturers on Dadaism and subsequently presented themselves
+					on the granite steps of the madhouse with shaven heads and harlequin speech of suicide,
+					demanding instantaneous lobotomy,
+				</p>
+				<p class="hangIndent">
+					and who were given instead the concrete void of insulin Metrazol electricity hydrotherapy
+					psychotherapy occupational therapy pingpong &amp; amnesia,
+				</p>
+				<p class="hangIndent">
+					who in humorless protest overturned only one symbolic pingpong table, resting briefly
+					in catatonia,
+				</p>
+				<p class="hangIndent">
+					returning years later truly bald except for a wig of blood, and tears and fingers,
+					to the visible mad man doom of the wards of the madtowns of the East,
+				</p>
+				<p class="hangIndent">
+					Pilgrim State's Rockland's and Greystone's foetid halls, bickering with the echoes
+					of the soul, rocking and rolling in the midnight solitude-bench dolmen-realms
+					of love, dream of life a nightmare, bodies turned to stone as heavy as the moon,
+				</p>
+				<p class="hangIndent">
+					with mother finally ******, and the last fantastic book flung out of the tenement
+					window, and the last door closed at 4. A.M. and the last telephone slammed at the
+					wall in reply and the last furnished room emptied down to the last piece of mental
+					furniture, a yellow paper rose twisted on a wire hanger in the closet, and even
+					that imaginary, nothing but a hopeful little bit of hallucination
+				</p>
+				<p class="hangIndent">
+					ah, Carl, while you are not safe I am not safe, and now you're really in the total
+					animal soup of time
+				</p>
+				<p class="hangIndent">
+					and who therefore ran through the icy streets obsessed with a sudden flash of the
+					alchemy of the use of the ellipse the catalog the meter &amp; the vibrating plane,
+				</p>
+				<p class="hangIndent">
+					who dreamt and made incarnate gaps in Time &amp; Space through images juxtaposed, and
+					trapped the archangel of the soul between 2 visual images and joined the elemental
+					verbs and set the noun and dash of consciousness together jumping with sensation
+					of Pater Omnipotens Aeterna Deus
+				</p>
+				<p class="hangIndent">
+					to recreate the syntax and measure of poor human prose and stand before you speechless
+					and intelligent and shaking with shame, rejected yet confessing out the soul
+					to conform to the rhythm of thought in his naked and endless head,
+				</p>
+				<p class="hangIndent">
+					the madman bum and angel beat in Time, unknown, yet putting down here what might
+					be left to say in time come after death,
+				</p>
+				<p class="hangIndent">
+					and rose reincarnate in the ghostly clothes of jazz in the goldhorn shadow of the
+					band and blew the suffering of America's naked mind for love into an eli eli lamma
+					lamma sabacthani saxophone cry that shivered the cities down to the last radio
+				</p>
+				<p class="hangIndent">
+					with the absolute heart of the poem of life butchered out of their own bodies good
+					to eat a thousand years.
+				</p>
+			</div>
+			<div class="reenie-beanie-regular">
+				<h2>
+					II</h2>
+				<p class="hangIndent">
+					What sphinx of cement and aluminum bashed open their skulls and ate up their brains
+					and imagination?
+				</p>
+				<p class="hangIndent">
+					Moloch! Solitude! Filth! Ugliness! Ashcans and unob tainable dollars! Children screaming
+					under the stairways! Boys sobbing in armies! Old men weeping in the parks!
+				</p>
+				<p class="hangIndent">
+					Moloch! Moloch! Nightmare of Moloch! Moloch the loveless! Mental Moloch! Moloch
+					the heavy judger of men!
+				</p>
+				<p class="hangIndent">
+					Moloch the incomprehensible prison! Moloch the crossbone soulless jailhouse and
+					Congress of sorrows! Moloch whose buildings are judgment! Moloch the vast stone
+					of war! Moloch the stunned governments!
+				</p>
+				<p class="hangIndent">
+					Moloch whose mind is pure machinery! Moloch whose blood is running money! Moloch
+					whose fingers are ten armies! Moloch whose breast is a cannibal dynamo! Moloch
+					whose ear is a smoking tomb!
+				</p>
+				<p class="hangIndent">
+					Moloch whose eyes are a thousand blind windows! Moloch whose skyscrapers stand in
+					the long streets like endless Jehovahs! Moloch whose factories dream and croak
+					in the fog! Moloch whose smokestacks and antennae crown the cities!
+				</p>
+				<p class="hangIndent">
+					Moloch whose love is endless oil and stone! Moloch whose soul is electricity and
+					banks! Moloch whose poverty is the specter of genius! Moloch whose fate is a cloud
+					of sexless hydrogen! Moloch whose name is the Mind!
+				</p>
+				<p class="hangIndent">
+					Moloch in whom I sit lonely! Moloch in whom I dream Angels! Crazy in Moloch! Cocksucker
+					in Moloch! Lacklove and manless in Moloch!
+				</p>
+				<p class="hangIndent">
+					Moloch who entered my soul early! Moloch in whom I am a consciousness without a
+					body! Moloch who frightened me out of my natural ecstasy! Moloch whom I abandon!
+					Wake up in Moloch! Light streaming out of the sky!
+				</p>
+				<p class="hangIndent">
+					Moloch! Moloch! Robot apartments! invisible suburbs! skeleton treasuries! blind
+					capitals! demonic industries! spectral nations! invincible mad houses! granite cocks!
+					monstrous bombs!
+				</p>
+				<p class="hangIndent">
+					They broke their backs lifting Moloch to Heaven! Pavements, trees, radios, tons!
+					lifting the city to Heaven which exists and is everywhere about us!
+				</p>
+				<p class="hangIndent">
+					Visions! omens! hallucinations! miracles! ecstasies! gone down the American river!
+				</p>
+				<p class="hangIndent">
+					Dreams! adorations! illuminations! religions! the whole boatload of sensitive bullshit!
+				</p>
+				<p class="hangIndent">
+					Breakthroughs! over the river! flips and crucifixions! gone down the flood! Highs!
+					Epiphanies! Despairs! Ten years' animal screams and suicides! Minds! New loves!
+					Mad generation! down on the rocks of Time!
+				</p>
+				<p class="hangIndent">
+					Real holy laughter in the river! They saw it all! the wild eyes! the holy yells!
+					They bade farewell! They jumped off the roof! to solitude! waving! carrying flowers!
+					Down to the river! into the street!
+				</p>
+			</div>
+			<div class="reenie-beanie-regular">
+				<h2>
+					III</h2>
+				<p class="hangIndent">
+					Carl Solomon! I'm with you in Rockland where you're madder than I am
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you must feel very strange
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you imitate the shade of my mother
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you've murdered your twelve secretaries
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you laugh at this invisible humor
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where we are great writers on the same dreadful typewriter
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where your condition has become serious and is reported
+					on the radio
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where the faculties of the skull no longer admit the worms
+					of the senses
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you drink the tea of the breasts of the spinsters
+					of Utica
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you pun on the bodies of your nurses the harpies
+					of the Bronx
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you scream in a straightjacket that you're losing
+					the game of the actual pingpong of the abyss
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you bang on the catatonic piano the soul is innocent
+					and immortal it should never die ungodly in an armed madhouse
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where fifty more shocks will never return your soul to
+					its body again from its pilgrimage to a cross in the void
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you accuse your doctors of insanity and plot the
+					Hebrew socialist revolution against the fascist national Golgotha
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where you will split the heavens of Long Island and resurrect
+					your living human Jesus from the superhuman tomb
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where there are twenty-five-thousand mad comrades all
+					together singing the final stanzas of the Internationale
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where we hug and kiss the United States under our bedsheets
+					the United States that coughs all night and won't let us sleep
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland where we wake up electrified out of the coma by our own
+					souls' airplanes roaring over the roof they've come to drop angelic bombs the hospital
+					illuminates itself imaginary walls collapse O skinny legions run outside O starry
+					spangled shock of mercy the eternal war is here O victory forget your underwear
+					we're free
+				</p>
+				<p class="hangIndent">
+					I'm with you in Rockland in my dreams you walk dripping from a sea-journey on the
+					highway across America in tears to the door of my cottage in the Western night
+				</p>
+			</div>
+			<p class="author">
+				Allen Ginsberg
+			</p>
+		</div>
+		<div class="poem">
+			<h1>Invictus</h1>
+			<p>
+				Out of the night that covers me,<br />
+				Black as the Pit from pole to pole,<br />
+				I thank whatever gods may be<br />
+				For my unconquerable soul.
+			</p><p>
+			    	In the fell clutch of circumstance<br />
+			    	I have not winced nor cried aloud.<br />
+			    	Under the bludgeonings of chance<br />
+			    	My head is bloody, but unbowed.
+			    </p><p>
+			        	Beyond this place of wrath and tears<br />
+			        	Looms but the Horror of the shade,<br />
+			        	And yet the menace of the years<br />
+			        	Finds, and shall find, me unafraid.
+			        </p><p>
+			            	It matters not how strait the gate,<br />
+			            	How charged with punishments the scroll.<br />
+			            	I am the master of my fate:<br />
+			            	I am the captain of my soul. 
+			            </p>
+			<p class="author">
+				William Ernest Henley
+			</p>
+		</div>
+		<div class="poem">
+			<h1>
+				The Land of Lost Content</h1>
+			<blockquote>
+				Into my heart an air that kills<br />
+				From yon far country blows:<br />
+				What are those blue remembered hills,<br />
+				What spires, what farms are those?<br />
+			</blockquote>
+			<blockquote>
+				That is the land of lost content,<br />
+				I see it shining plain,<br />
+				The happy highways where I went<br />
+				And cannot come again.<br />
+			</blockquote>
+			<p class="author">
+				Alfred Edward Housman
+			</p>
+		</div>
+		<div class="poem">
+			<h1>
+				Genius Child</h1>
+			<blockquote>
+				This is a song for the genius child.<br />
+				Sing it softly, for the song is wild.<br />
+				Sing it softly as ever you can&mdash;<br />
+				Lest the song get out of hand.<br />
+			</blockquote>
+			<blockquote>
+				<i>Nobody loves a genius child.</i>
+			</blockquote>
+			<blockquote>
+				Can you love an eagle, 
+                Tame or wild?<br />
+			</blockquote>
+			<blockquote>
+				Wild or tame,<br />
+				Can you love a monster<br />
+				Of frightening name?<br />
+			</blockquote>
+			<blockquote>
+				<i>Nobody loves a genius child.</i>
+			</blockquote>
+			<blockquote>
+				<i>Kill him</i>&mdash;and let his soul run wild!
+			</blockquote>
+			<p class="author">
+				Langston Hughes
+			</p>
+		</div>
+		<div class="poem" style="display:inline-block">
+			<h1>
+				A Dream within a Dream.
+			</h1>
+			<hr style="padding:0" />
+			<p class="author" style="text-align:center;margin:0">
+				B Y &nbsp; E D G A R &nbsp; A. &nbsp; P O E.
+			</p>
+			<hr style="padding:0" />
+			<blockquote style="margin:0 auto;">
+				Take this kiss upon the brow!<br />
+				And, in parting from you now,<br />
+				Thus much let me avow &mdash;<br />
+				You are not wrong, who deem<br />
+				That my days have been a dream;<br />
+				Yet if Hope has flown away<br />
+				In a night, or in a day,<br />
+				In a vision, or in none,<br />
+				Is it therefore the less <i>gone?</i><br />
+				<i>All</i> that we see or seem<br />
+				Is but a dream within a dream.<br />
+				<br />
+				I stand amid the roar<br />
+				Of a surf-tormented shore,<br />
+				And I hold within my hand<br />
+				Grains of the golden sand&mdash;<br />
+				How few! yet how they creep<br />
+				Through my fingers to the deep,<br />
+				While I weep&mdash;while I weep!<br />
+				O God! can I not grasp<br />
+				Them with a tighter clasp?<br />
+				O God! can I not save<br />
+				<i>One</i> from the pitiless wave?<br />
+				Is <i>all</i> that we see or seem<br />
+				But a dream within a dream?<br />
+			</blockquote>
+		</div>
+		<div class="poem">
+			<h1>
+				The Lake Isle of Innisfree.
+			</h1>
+			<blockquote>
+				<span style="float:left;line-height:.9em;font-size:2.35em;">I</span>&ensp;WILL arise and go now, and go to Innisfree,<br />
+				&emsp;And a small cabin build there, of clay and wattles made ;<br />
+				Nine bean rows will I have there, a hive for the honey bee,<br />
+				&ensp;And live alone in the bee-loud glade.<br />
+			</blockquote>
+			<blockquote>
+				And I shall have some peace there, for peace comes dropping slow,<br />
+				&ensp;Dropping from the veils of the morning to where the cricket sings ;<br />
+				There midnight's all a glimmer, and noon a purple glow,<br />
+				&ensp;And evening full of the linnet's wings.<br />
+			</blockquote>
+			<blockquote>
+				I will arise and go now, for always night and day<br />
+				&ensp;I hear lake water lapping with low sounds by the shore ;<br />
+				While I stand on the roadway, or on the pavements gray,<br />
+				&ensp;I hear it in the deep heart's core.<br />
+			</blockquote>
+			<p class="author">
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;W. B. Yeats
+			</p>
+		</div>
+		<div class="poem">
+			<h1>
+			A Poet's Advice to Students
+			</h1>
+
+<blockquote class="special-elite-regular">
+A poet is somebody who feels, and who expresses his feeling through<br/>
+&emsp;words.<br/>
+This may sound easy. It isn't.<br/>
+A lot of people think or believe or know they feel--but<br/>
+that's thinking or believing or knowing; not feeling. And poetry is feeling--<br/>
+not knowing or believing or thinking.<br/>
+<br/>
+Almost anybody can learn to think or believe or know, but not a single<br/>
+human being can be taught to feel. Why? Because whenever you think or<br/>
+you believe or you know, you're a lot of other people: but the moment you<br/>
+feel, you're nobody-but-yourself.<br/>
+<br/>
+To be nobody-but-yourself--in a world which is doing its best, night<br/>
+and day, to make you everybody else--means to fight the hardest battle<br/>
+which any human being can fight; and never stop fighting.<br/>
+<br/>
+As for expressing nobody-but-yourself in words, that means working just<br/>
+a little harder than anybody who isn't a poet can possibly imagine. Why?<br/>
+Because nothing is quite as easy as using words like somebody else.<br/>
+We all of us do exactly this nearly all of the time--and whenever we <br/>
+do it, we're not poets.<br/>
+<br/>
+If, at the end of your first ten or fifteen years of fighting and working<br/>
+and feeling, you find you've written one line of one poem, you'll be very<br/>
+lucky indeed.<br/>
+<br/>
+And so my advice to all young people who wish to become poets is: do<br/>
+something easy, like learning how to blow up the<br/>
+world--unless you're not only willing, but glad, to feel and work and<br/>
+fight till you die.<br/>
+<br/>
+Does this sound dismal? It isn't.<br/>
+It's the most wonderful life on earth.<br/>
+Or so I feel.<br/>
+</blockquote>
+<p class="author special-elite-regular">
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;--sincerely,<br/>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="cedarville-cursive-regular">E.E. Cummings</span>
+<p>
+		</div>
+		<script>
+			const THEME_STORAGE_KEY = "favoritePoemsTheme";
+			const themeButtons = [...document.querySelectorAll(".theme-control button[data-theme-value]")];
+
+			function getSavedTheme() {
+				try {
+					const saved = localStorage.getItem(THEME_STORAGE_KEY);
+					if (saved === "light" || saved === "dark" || saved === "auto") {
+						return saved;
+					}
+				} catch (_) {}
+				return "auto";
+			}
+
+			function saveTheme(mode) {
+				try {
+					localStorage.setItem(THEME_STORAGE_KEY, mode);
+				} catch (_) {}
+			}
+
+			function applyTheme(mode) {
+				if (mode === "light" || mode === "dark") {
+					document.documentElement.setAttribute("data-theme", mode);
+				} else {
+					document.documentElement.removeAttribute("data-theme");
+					mode = "auto";
+				}
+				themeButtons.forEach(button => {
+					button.setAttribute("aria-pressed", String(button.dataset.themeValue === mode));
+				});
+			}
+
+			themeButtons.forEach(button => {
+				button.addEventListener("click", () => {
+					const mode = button.dataset.themeValue;
+					applyTheme(mode);
+					saveTheme(mode);
+				});
+			});
+
+			applyTheme(getSavedTheme());
+
+			const poems = [...document.querySelectorAll(".poem")];
+			const poemContainer = poems[0].parentElement;
+			const script = document.currentScript;
+			const index = document.createElement("nav");
+			const title = document.createElement("h2");
+			const list = document.createElement("ul");
+			const usedIds = new Set();
+
+			poems.sort((first, second) =>
+				first.querySelector("h1").textContent.trim().localeCompare(
+					second.querySelector("h1").textContent.trim(),
+					undefined,
+					{ sensitivity: "base" }
+				)
+			);
+			poems.forEach(poem => poemContainer.insertBefore(poem, script));
+
+			index.className = "poem-index";
+			index.id = "poem-index";
+			index.setAttribute("aria-label", "Poems");
+			title.textContent = "Index of Poems";
+			index.append(title, list);
+
+			poems.forEach((poem, position) => {
+				const heading = poem.querySelector("h1");
+				if (!heading) return;
+
+				const poemTitle = heading.textContent.trim().replace(/\s+/g, " ");
+				const baseId = poemTitle.toLowerCase()
+					.replace(/[^a-z0-9]+/g, "-")
+					.replace(/^-|-$/g, "") || `poem-${position + 1}`;
+				let id = baseId;
+				let suffix = 2;
+				while (usedIds.has(id)) id = `${baseId}-${suffix++}`;
+				usedIds.add(id);
+				poem.id = id;
+
+				const item = document.createElement("li");
+				const link = document.createElement("a");
+				link.href = `#${id}`;
+				link.textContent = poemTitle;
+				item.append(link);
+				list.append(item);
+
+				const returnLink = document.createElement("a");
+				const returnParagraph = document.createElement("p");
+				returnLink.href = "#poem-index";
+				returnLink.textContent = "Back to index";
+				returnParagraph.className = "return-to-index";
+				returnParagraph.append(returnLink);
+				poem.append(returnParagraph);
+			});
+
+			if (list.childElementCount) {
+				poems[0].before(index);
+			}
+		</script>
+	</body>
+</html>

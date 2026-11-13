@@ -1,0 +1,243 @@
+id,parent_id,unit_name,name,value,deceased,spouse_name,spouse_value,spouse_deceased
+1,,Valdivia,Simona,88,true,Ismael,76,true
+2,1,Sépulveda,Esther,83,true,Joel,79,true
+3,2,Muñoz,Yolie,77,false,Richard Sr.,78,false
+4,3,Richard Jr.,Richard Jr.,58,false,,,false
+5,4,,Tony,38,false,,,false
+6,4,Mike,Mike,37,false,Steph,32,false
+7,6,,Noah,14,false,,,false
+8,6,,Daughter*,13,false,,,false
+9,6,,Tyler,12,false,,,false
+10,6,,Matilda,5,false,,,false
+11,3,Cathi,Cathi,52,false,Jason,52,false
+12,11,Tori Rae,Tori Rae,32,false,,,false
+13,12,,Rosalina,2,false,,,false
+14,2,Bobby S.,Bobby,60,true,Ibi,75,false
+15,14,,Robert Jr.,49,false,,,false
+16,14,,Dava,43,false,,,false
+17,14,,Kati,41,false,,,false
+18,14,,Sari,33,false,,,false
+19,2,Gloria S.,Gloria,73,false,Lanney,61,true
+20,19,,Romie,53,false,,,false
+21,19,,Rolando,49,false,,,false
+22,2,Rick S.,Rick,72,false,Wife,72,false
+23,22,Michelle,Michelle,30,false,,,false
+24,23,,Kamryn,8,false,,,false
+25,2,Lu,Lu,70,false,,,false
+26,25,Danielle,Danielle,49,false,,,false
+27,26,,Valencia,23,false,,,false
+28,25,,Samantha Jane,33,false,,,false
+29,2,,Joseph,69,false,,,false
+30,2,,Steven,68,false,,,false
+31,2,,Martin,43,true,,,false
+32,1,Albert V.,Albert,74,true,Angelina,88,true
+33,32,,Ralph,69,false,,,false
+34,32,Rocha,Martha,65,false,Joseph,68,false
+35,34,,Jacob,46,false,,,false
+36,34,Joey,Joey,46,false,Nekol,46,false
+37,36,,Oñyessah,24,false,,,false
+38,34,,Jaime,44,false,,,false
+39,34,Jacque,Jacque,39,false,husband,39,false
+40,39,,Alyssa,19,false,,,false
+41,39,,Angelina,12,false,,,false
+42,34,Martinez,Janelle,38,false,Vicente,39,false
+43,42,,Gio,15,false,,,false
+44,42,,Marisa,12,false,,,false
+45,34,,Joshua,37,false,,,false
+46,1,Chepo V.,Chepo,55,true,Carmen,90,false
+47,46,Mendoza,Cynthia,73,false,Richard,75,false
+48,47,Llamas,Nicole,50,false,Jorge,50,false
+49,47,,John,48,false,,,false
+50,46,Joey,Joey,70,false,,,false
+51,50,Marcus,Marcus,51,false,Kate,51,false
+52,46,Mike,Mike,66,false,Dolores,66,false
+53,52,Chafe,Angie,36,false,Ryan,36,false
+54,53,,Eva,18,false,,,false
+55,53,,Camilia,7,false,,,false
+56,53,,Madeline,6,false,,,false
+57,46,Pat's,Pat,63,false,Barbara,63,false
+58,46,Jaime's,Jaime,61,false,James,61,false
+59,58,,Antonio,46,false,,,false
+60,58,Anya's,Anya,45,false,Simon,45,false
+61,60,,Naya,45,false,,,false
+62,1,Peter V.,Peter,83,false,Rita,74,false
+63,62,Rene's,Rene,67,false,Laurie,67,false
+64,62,Ramos,Laura,65,false,José,63,false
+65,64,,Michelle,38,false,,,false
+66,64,Michael's,Michael,36,false,Rene,36,false
+67,62,James',James,64,false,Amy,64,false
+68,67,,Joshua,40,false,,,false
+69,67,,Olivia,34,false,,,false
+70,62,,Donnie,62,false,,,false
+71,62,Ted V.,Ted,54,false,Cindi,34,false
+72,71,Watson,Kaela,32,false,Brice,32,false
+73,72,,Braxton,5,false,,,false
+74,72,,Briar,4,false,,,false
+75,71,Alayna,Alayna,27,false,,,false
+76,75,,Brynn,6,false,,,false
+77,71,,Maura,14,false,,,false
+78,1,Raymond V.,Raymond,65,true,Marcelina,85,false
+79,78,Andrea,Andrea,63,false,Tommy,63,false
+80,78,Roxie,Roxie,62,false,,,false
+81,80,,Danielle,62,false,,,false
+82,78,,Thomas,61,false,,,false
+83,78,Rolenda,Rolenda,60,false,,,false
+84,83,,Toni,41,false,,,false
+85,78,,Kevin,58,false,,,false
+86,78,Lisa Rae,Lisa Rae,56,false,,,false
+87,1,Frankie V.,Frankie,65,true,Mary,75,false
+88,87,Shelly,Shelly,50,false,,,false
+89,88,,Justice,30,false,,,false
+90,88,Bailey,Bailey,27,false,,,false
+91,90,,Javin,1,false,,,false
+92,87,Chrissy,Chrissy,50,false,,,false
+93,92,,Joey,22,false,,,false
+94,92,,Jonah,18,false,,,false
+95,92,,Aubri,17,false,,,false
+96,87,,Brian,45,false,,,false
+97,1,Abel V.,Abel,78,false,Lonnies,75,false
+98,97,Damien,Damien,52,false,Jenny,52,false
+99,98,,Raymie,21,false,,,false
+100,97,Aaron,Aaron,48,false,Michelle,42,false
+101,100,,Ren,6,false,,,false
+102,97,,Derrick,35,false,,,false
+103,1,Cokey V.,Cokey,75,false,Patti,72,false
+104,1,Campos,Aurora,78,true,Manuel,83,true
+105,104,R. Tierina,Rosie,74,false,Raul,73,false
+106,105,Jason,Jason,47,false,Elizabeth,47,false
+107,106,,Lucy,15,false,,,false
+108,106,,William,14,false,,,false
+109,105,A. Borrego,Annie,46,false,Michael,46,false
+110,109,,Isaac,19,false,,,false
+111,109,,Vicotria,13,false,,,false
+112,109,,Teresa,12,false,,,false
+113,105,Adam,Adam,44,false,Elizabeth,44,false
+114,113,,Xavier,26,false,,,false
+115,113,G. Macias,Gabby,26,false,?,26,false
+116,113,,Vincent,9,false,,,false
+117,105,Mark,Mark,42,false,Lauren,42,false
+118,117,,Arie,8,false,,,false
+119,104,,Daniel,73,false,,,false
+120,104,M. Garcia,Mary Frances,71,false,Victor,71,false
+121,120,,Jennifer,51,false,,,false
+122,120,,Sarah,45,false,,,false
+123,104,David,David,70,false,Rachel,70,false
+124,123,Vanessa's,Vanessa,51,false,,,false
+125,124,,Kevin,28,false,,,false
+126,124,,Ethan,27,false,,,false
+127,124,,Marian,26,false,,,false
+128,123,,Denise,48,false,,,false
+129,123,,Stephen,44,false,,,false
+130,104,Diana Garcia,Diana,68,false,George,67,false
+131,130,,Jacob,37,false,,,false
+132,130,,Eric,30,false,,,false
+133,104,,George,69,false,,,false
+134,104,,Arthur,68,false,,,false
+135,104,,Diana,69,false,,,false
+136,104,,Annette,67,false,,,false
+137,1,Muñoz,Mary,95,false,Phillip,95,true
+138,137,O'Neil,Stephanie,66,false,Steve,66,false
+139,138,Patricks's,Patrick,39,false,Meredith,37,false
+140,138,Ayres,Haley,38,false,Jack,42,false
+141,140,,Felix,7,false,,,false
+142,140,,Calvin,3,false,,,false
+143,138,Shea,Caitlin,36,false,Ryan,37,false
+144,143,,Frankie,7,false,,,false
+145,143,,Eddie,4,false,,,false
+146,143,,Vincent,3,false,,,false
+147,137,Mark,Mark,65,false,Patricia,65,false
+148,147,,Gus,24,false,,,false
+149,147,,Dorothy,22,false,,,false
+150,147,,Sal,20,false,,,false
+151,137,Jaime,Jaime,64,false,Diane,66,false
+152,151,,Deana,33,false,,,false
+153,151,,Dani,32,false,,,false
+154,151,,Daela,28,false,,,false
+155,137,Herrera,Yvonne,63,false,Bernie,50,false
+156,155,Shannon,Shannon,41,false,Rod,42,false
+157,156,,Avery,10,false,,,false
+158,156,,Emersen,1,false,,,false
+159,155,Jessica,Jessica,38,false,Michael,38,false
+160,159,,Kid1,10,false,,,false
+161,159,,Mason,8,false,,,false
+162,159,,Kid3,4,false,,,false
+163,155,,Matthew,36,false,,,false
+164,137,Gary,Gary,43,false,Josie,61,false
+165,164,,Esteban,36,false,,,false
+166,164,,Mario,30,false,,,false
+167,164,,Simon,28,false,,,false
+168,164,Lena,Lena,26,false,,,false
+169,168,,Daughter,10,false,,,false
+170,168,,Baby,1,false,,,false
+171,137,,Adam,61,false,,,false
+172,137,Rivera,Patty,60,false,Walter,60,false
+173,172,Alex,Alex,60,false,Kassi,60,false
+174,173,,Xander,12,false,,,false
+175,173,,Luke,9,false,,,false
+176,173,,Arlo,1,false,,,false
+177,172,,Izzy,34,false,,,false
+178,172,,Maddie,34,false,,,false
+179,137,Dee No,Dee No,59,false,Elias,59,false
+180,179,,Xavier,34,false,,,false
+181,137,Johnson,Cynthia,58,false,Troy,58,false
+182,1,Ramos,Virginia,79,true,José,85,false
+183,182,,Adrian,62,false,,,false
+184,182,Schafer,Julie,61,false,Keith,61,false
+185,184,,Zach,37,false,,,false
+186,184,Brooks,Amy,34,false,D.J.,35,false
+187,186,,Evelynn,6,false,,,false
+188,186,,Noah,5,false,,,false
+189,186,,Simon,2,false,,,false
+190,182,Kjerstad,Gianna,59,false,Husband*,59,false
+191,190,,Sydney,33,false,,,false
+192,190,Jenni,Jenni,31,false,,,false
+193,192,,Hannah,12,false,,,false
+194,190,,Jakob,26,false,,,false
+195,182,Valerie,Valerie,57,false,John,56,false
+196,195,,Tyler,31,false,,,false
+197,182,José,José,53,false,Suzie,53,false
+198,1,Mendez,Becca,83,false,Joe,80,true
+199,198,José,José,62,false,Myrna,62,false
+200,199,,Kailey,25,false,,,false
+201,198,,Robert,60,false,,,false
+202,198,Eric,Eric,59,false,,,false
+203,202,,Noah,17,false,,,false
+204,198,David,David,55,false,Fran,55,false
+205,204,,Maggie,21,false,,,false
+206,204,,Zach,19,false,,,false
+207,1,Adamé,Teresa,95,false,John,69,false
+208,207,Witherell,Liz,70,true,James,70,false
+209,208,Michael,Michael,38,false,Rachael,35,false
+210,209,,Achilles,10,false,,,false
+211,209,,Ragnar,8,false,,,false
+212,209,,Mars,2,false,,,false
+213,207,Jerry A.,Jerry,55,true,Janice,54,true
+214,207,Michael A.,Michael,70,false,Gloria,70,false
+215,214,,Kim,48,false,,,false
+216,214,,Gina,46,false,,,false
+217,207,Garza,Carleen,68,false,Dan,69,true  
+218,217,,Joseph,40,false,,,false
+219,217,Terry,Angela,38,false,Jason,42,false
+220,219,,Blake,14,false,,,false
+221,219,,Jocelyn,9,false,,,false
+222,219,,Sean,7,false,,,false
+223,217,Pederson,Jay,38,false,Krista,36,false
+224,223,,Isaak,6,false,,,false
+225,223,,Myles,4,false,,,false
+226,223,,Fredrik,1,false,,,false
+227,207,Engroff,Joyce,46,true,Clarence,63,false
+228,227,John E.,John,35,false,Heather,33,false
+229,228,,Peter,2,false,,,false
+230,228,,Amelia,1,false,,,false
+231,207,Paul,Paul,62,false,Veronica,58,false
+232,231,Dominic,Dominic,40,false,Ashley,35,false
+233,232,,Ezra Jo,10,false,,,false
+234,232,,Everest,8,false,,,false
+235,232,,Eris,6,false,,,false
+236,231,Donahue,Elena,28,false,Alan,29,false
+237,236,,Jeremiah,1,false,,,false
+238,231,Elyse,Elyse,25,false,,,false
+239,207,Phillips,Karen,61,false,Dave,70,false
+240,239,,Andy,29,false,,,false
+241,239,,Sarah,27,false,,,false
+

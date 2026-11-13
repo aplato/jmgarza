@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head>
+
+  <meta charset="UTF-8">
+  <title>Chaos Star</title>
+  <style>
+body {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.chaos-container {
+  position: relative;
+  width: min(calc(100vw - 16px), calc(100dvh - 16px));
+  aspect-ratio: 1;
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Center circle */
+.center-hub {
+  position: absolute;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  background-color: #ff3300;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #ff3300;
+  z-index: 2;
+}
+
+/* Arrow container */
+.arrow {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 12cqw; /* Wider container to give peaks room to flip left/right */
+  height: var(--len, 120px); 
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(var(--angle));
+  
+  /* Slower organic breathing length adjustment from previous step */
+  transition: height 2.5s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.wave-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Solid line styles */
+.wave-path {
+  fill: none;
+  stroke: #ff3300;
+  stroke-width: 1.2cqw;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px #ff3300);
+}
+
+/* Arrowhead tips mounted to the top */
+.arrow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  border-left: 2.4cqw solid transparent;
+  border-right: 2.4cqw solid transparent;
+  border-bottom: 4cqw solid #ff3300;
+  filter: drop-shadow(0 -3px 5px #ff3300);
+}
+
+  </style>
+
+</head>
+
+<body>
+  <div class="chaos-container">
+    <!-- 8 solid wavy arrows -->
+    <div class="arrow" style="--angle:   0deg; --len: 181px;"><svg class="wave-svg"><path class="wave-path" d="M30,189 Q42.82304104278427,170.1 30,151.2 Q17.17695895721573,132.29999999999998 30,113.4 Q42.82304104278427,94.5 30,75.60000000000001 Q17.17695895721573,56.70000000000001 30,37.80000000000001 Q42.82304104278427,18.900000000000013 30,0"></path></svg></div>
+    <div class="arrow" style="--angle:  45deg; --len: 190px;"><svg class="wave-svg"><path class="wave-path" d="M30,132 Q39.54226779481533,115.5 30,99 Q20.45773220518467,82.5 30,66 Q39.54226779481533,49.5 30,33 Q20.45773220518467,16.5 30,0"></path></svg></div>
+    <div class="arrow" style="--angle:  90deg; --len: 199px;"><svg class="wave-svg"><path class="wave-path" d="M30,189 Q16.899321593044426,157.5 30,126 Q43.10067840695557,94.5 30,63 Q16.899321593044426,31.5 30,0"></path></svg></div>
+    <div class="arrow" style="--angle: 135deg; --len: 147px;"><svg class="wave-svg"><path class="wave-path" d="M30,172 Q43.952973625068545,143.33333333333334 30,114.66666666666666 Q16.047026374931455,85.99999999999999 30,57.33333333333333 Q43.952973625068545,28.66666666666666 30,0"></path></svg></div>
+    <div class="arrow" style="--angle: 180deg; --len: 146px;"><svg class="wave-svg"><path class="wave-path" d="M30,130 Q44.54600190394446,97.5 30,65 Q15.453998096055539,32.5 30,0"></path></svg></div>
+    <div class="arrow" style="--angle: 225deg; --len: 156px;"><svg class="wave-svg"><path class="wave-path" d="M30,147 Q15.187101093429252,132.3 30,117.6 Q44.81289890657075,102.89999999999999 30,88.2 Q15.187101093429252,73.5 30,58.80000000000001 Q44.81289890657075,44.10000000000001 30,29.400000000000006 Q15.187101093429252,14.700000000000006 30,0"></path></svg></div>
+    <div class="arrow" style="--angle: 270deg; --len: 142px;"><svg class="wave-svg"><path class="wave-path" d="M30,180 Q44.73499073172296,135 30,90 Q15.265009268277044,45 30,0"></path></svg></div>
+    <div class="arrow" style="--angle: 315deg; --len: 120px;"><svg class="wave-svg"><path class="wave-path" d="M30,175 Q29.21752097869854,157.5 30,140 Q30.78247902130146,122.5 30,105 Q29.21752097869854,87.5 30,70 Q30.78247902130146,52.5 30,35 Q29.21752097869854,17.5 30,0"></path></svg></div>
+    <div class="center-hub"></div>
+  </div>
+
+  <script>
+const arrows = document.querySelectorAll('.arrow');
+const wavePaths = document.querySelectorAll('.wave-path');
+
+// Initialize state tracking data for each individual arrow
+const arrowStates = Array.from(wavePaths).map(() => {
+  return {
+    timeOffset: Math.random() * Math.PI * 2,
+    // Initialize with a random number of wave ripples (e.g., between 2 and 5)
+    ripples: Math.floor(Math.random() * 4) + 2, 
+    // Track the previous mathematical sign to detect when it crosses 0
+    lastSign: 0 
+  };
+});
+
+let globalTime = 0;
+
+function animateAmplitude() {
+  globalTime += 0.03; // Base flipping speed
+
+  wavePaths.forEach((path, index) => {
+    const state = arrowStates[index];
+    const uniqueTime = globalTime + state.timeOffset;
+    
+    const currentSin = Math.sin(uniqueTime);
+    const currentSign = Math.sign(currentSin);
+
+    // ZERO-CROSSING DETECTION: If the wave changes direction, it just flattened out!
+    if (state.lastSign !== 0 && currentSign !== state.lastSign) {
+      // Safely assign a new random ripple count (from 2 to 5 ripples) while it is a straight line
+      state.ripples = Math.floor(Math.random() * 4) + 2;
+    }
+    state.lastSign = currentSign; // Store sign for next frame comparison
+
+    const arrow = path.closest('.arrow');
+    const centerX = arrow.clientWidth / 2;
+    const baseAmplitude = arrow.clientWidth / 4;
+    const amp = baseAmplitude * currentSin;
+    const parentHeight = arrow.clientHeight;
+
+    // Build a dynamic, multi-segmented SVG path based on the current ripple count
+    let dString = `M${centerX},${parentHeight}`;
+    const segmentHeight = parentHeight / state.ripples;
+
+    for (let i = 0; i < state.ripples; i++) {
+      // Calculate coordinates from the bottom anchor up to the top tip
+      const yStart = parentHeight - (i * segmentHeight);
+      const yEnd = parentHeight - ((i + 1) * segmentHeight);
+      const yControl = yStart - (segmentHeight / 2);
+      
+      // Alternate the horizontal wave direction left and right for each ripple segment
+      const directionModifier = (i % 2 === 0) ? 1 : -1;
+      const xControl = centerX + (amp * directionModifier);
+
+      // Append the next curve segment to our path
+      dString += ` Q${xControl},${yControl} ${centerX},${yEnd}`;
+    }
+    
+    path.setAttribute('d', dString);
+  });
+
+  requestAnimationFrame(animateAmplitude);
+}
+
+// Keep the independent vertical breathing logic running
+function breatheLengths() {
+  const scale = document.querySelector('.chaos-container').clientWidth / 500;
+  arrows.forEach(arrow => {
+    const randomLength = Math.floor(Math.random() * 80) + 120;
+    arrow.style.setProperty('--len', `${randomLength * scale}px`);
+  });
+}
+
+// Ignite both engine loops
+setInterval(breatheLengths, 2500);
+window.addEventListener('resize', breatheLengths);
+breatheLengths();
+animateAmplitude();
+  </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head>
+
+  <meta charset="UTF-8">
+  <title>Chaos Star</title>  
+
+  <style>
+body {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --theme-color: #ff3300;
+  --glow-color: #ff3300;
+}
+
+.chaos-container {
+  position: relative;
+  width: min(calc(100vw - 16px), calc(100dvh - 16px));
+  aspect-ratio: 1;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.chaos-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* DIAGNOSTICS OVERLAY STYLING SYSTEM */
+.diagnostics-group {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Visible if side panel is active OR if the permanent toggle switch is enabled */
+body.show-debug .diagnostics-group,
+body.always-debug .diagnostics-group {
+  opacity: 1;
+}
+
+.diag-zone {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 1px;
+}
+
+/* The Faint Square Boundary Box Overlay */
+.diag-rect {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 1px;
+  stroke-dasharray: 8 4;
+}
+
+.outer-bound-disk {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-dasharray: 4 4;
+}
+
+.inner-bound-disk {
+  fill: #111;
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.peak-line-circle {
+  fill: none;
+  stroke: var(--theme-color);
+  stroke-width: 1px;
+  stroke-dasharray: 5 4;
+  opacity: 0.3;
+}
+
+/* Wavy Reference Guide Path */
+.diag-wave-guide {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1px;
+  stroke-dasharray: 3 3;
+}
+
+.center-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8%;
+  height: 8%;
+  background-color: var(--theme-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--glow-color);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.arrow-group {
+  transform-origin: var(--cx, 0px) var(--cy, 0px);
+  transform: rotate(var(--angle));
+}
+
+.wave-path {
+  fill: none;
+  stroke: var(--theme-color);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px var(--glow-color));
+}
+
+.arrow-tip {
+  fill: var(--theme-color);
+  stroke: none;
+  filter: drop-shadow(0 -2px 5px var(--glow-color));
+}
+
+/* Settings Button UI */
+.settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  line-height: 1;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+}
+
+.config-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.config-overlay.open { pointer-events: auto; }
+
+.config-window {
+  position: absolute;
+  top: 0; right: 0; height: 100%; width: 100%;
+  max-width: 360px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.config-overlay.open .config-window { transform: translateX(0); }
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.config-header h3 { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: 0.5px; }
+.close-btn { background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
+.close-btn:hover { color: #fff; }
+.config-body { padding: 25px 20px; overflow-y: auto; flex: 1; }
+.control-row { display: flex; gap: 15px; margin-bottom: 25px; }
+.control-group { margin-bottom: 25px; }
+.control-group.half { flex: 1; margin-bottom: 0; }
+.control-group:last-child { margin-bottom: 0; }
+
+.control-group label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+/* Custom CSS Toggle Design */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.toggle-label {
+  display: flex !important;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--theme-color);
+  cursor: pointer;
+}
+
+.toggle-text {
+  font-size: 13px !important;
+  color: #ccc !important;
+  text-transform: none !important;
+  letter-spacing: 0px !important;
+}
+
+input[type="color"] {
+  width: 100%; height: 40px; background: #222; border: 1px solid #333; border-radius: 8px;
+  cursor: pointer; padding: 4px; box-sizing: border-box;
+}
+
+input[type="range"] {
+  width: 100%; background: #222; height: 6px; border-radius: 3px; outline: none;
+  accent-color: var(--theme-color);
+}
+
+@media (min-width: 900px) {
+  body:has(.config-overlay.open) .chaos-container { transform: translateX(-100px); }
+}
+
+  </style>
+
+</head>
+
+<body>
+<div class="chaos-container">
+  <svg class="chaos-canvas">
+    <g class="diagnostics-group">
+      <rect class="diag-zone diag-rect" />
+      <circle class="diag-zone outer-bound-disk" />
+      <circle class="diag-zone inner-bound-disk" />
+      <circle class="diag-line peak-line-circle" />
+      <path class="diag-wave-guide" />
+    </g>
+
+    <g class="arrow-group" style="--angle: 0deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 45deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 90deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 135deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 180deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 225deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 270deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+    <g class="arrow-group" style="--angle: 315deg;"><path class="wave-path" /><polygon class="arrow-tip" /></g>
+  </svg>
+  <div class="center-hub"></div>
+</div>
+
+<button class="settings-btn" aria-label="Open Configuration">⚙️</button>
+
+<div class="config-overlay">
+  <div class="config-window">
+    <div class="config-header">
+      <h3>Chaos Configuration</h3>
+      <button class="close-btn">&times;</button>
+    </div>
+    
+    <div class="config-body">
+      <div class="control-row">
+        <div class="control-group half">
+          <label>Theme Color</label>
+          <input type="color" id="param-color-main" value="#ff3300">
+        </div>
+        <div class="control-group half">
+          <label>Neon Glow Color</label>
+          <input type="color" id="param-color-glow" value="#ff3300">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Breathing Fluidity (Lerp Smoothness)</label>
+        <input type="range" id="param-lerp" min="0.005" max="0.1" step="0.005" value="0.025">
+      </div>
+      
+      <div class="control-group">
+        <label>Base Ripple Amplitude</label>
+        <input type="range" id="param-amp" min="0.01" max="0.12" step="0.01" value="0.04">
+      </div>
+      
+      <div class="control-group">
+        <label>Flipping Engine Speed</label>
+        <input type="range" id="param-flip-speed" min="0.005" max="0.15" step="0.005" value="0.03">
+      </div>
+
+      <div class="control-group">
+        <label>Inner Bounds Threshold (Center Floor %)</label>
+        <input type="range" id="param-min-bound" min="0.0" max="0.3" step="0.02" value="0.10">
+      </div>
+
+      <!-- New Distribution Peak Radius Control Parameter Slider -->
+      <div class="control-group">
+        <label>Distribution Peak Radius (Midpoint %)</label>
+        <input type="range" id="param-peak-bound" min="0.2" max="0.8" step="0.02" value="0.50">
+      </div>
+
+      <div class="control-group">
+        <label>Outer Bounds Threshold (Edge Ceiling %)</label>
+        <input type="range" id="param-max-bound" min="0.6" max="1.0" step="0.02" value="0.90">
+      </div>
+
+      <div class="control-group toggle-container">
+        <label class="toggle-label">
+          <input type="checkbox" id="param-always-debug">
+          <span class="toggle-text">Keep Guidelines Always Visible</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+<script>
+const canvas = document.querySelector('.chaos-canvas');
+const arrowGroups = document.querySelectorAll('.arrow-group');
+const wavePaths = document.querySelectorAll('.wave-path');
+const arrowTips = document.querySelectorAll('.arrow-tip');
+
+const diagRect = document.querySelector('.diag-rect');
+const outerDisk = document.querySelector('.outer-bound-disk');
+const innerDisk = document.querySelector('.inner-bound-disk');
+const peakCircle = document.querySelector('.peak-line-circle');
+const waveGuide = document.querySelector('.diag-wave-guide');
+
+const config = {
+  lerpFactor: 0.025,
+  amplitudeRatio: 0.04,
+  flipSpeed: 0.03,
+  minBoundRatio: 0.10,
+  peakRatio: 0.50, // Added flexible peak configuration property
+  maxBoundRatio: 0.90
+};
+
+const arrowLengths = Array.from(wavePaths).map(() => 100);
+const targetLengths = Array.from(wavePaths).map(() => 100);
+
+const arrowStates = Array.from(wavePaths).map((path, index) => {
+  const group = arrowGroups[index];
+  const angleStr = group.style.getPropertyValue('--angle') || '0deg';
+  const deg = parseFloat(angleStr) || 0;
+  const rad = (deg * Math.PI) / 180;
+
+  return {
+    angleRad: rad,
+    isDiagonal: deg % 90 !== 0,
+    timeOffset: Math.random() * Math.PI * 2,
+    ripples: Math.floor(Math.random() * 4) + 2, 
+    lastSign: 0,
+    nextTargetTime: Date.now() + Math.random() * 2500 
+  };
+});
+
+let globalTime = 0;
+
+function calculateSingleTarget(index) {
+  const rect = canvas.getBoundingClientRect();
+  const halfBoxSize = rect.width / 2;
+  const state = arrowStates[index];
+  
+  const cosA = Math.abs(Math.cos(state.angleRad));
+  const sinA = Math.abs(Math.sin(state.angleRad));
+  const distanceToBoxEdge = halfBoxSize / Math.max(cosA, sinA);
+
+  const minConstraint = distanceToBoxEdge * config.minBoundRatio; 
+  const maxConstraint = distanceToBoxEdge * config.maxBoundRatio; 
+  
+  // DYNAMIC GAUSSIAN TARGET PEAK: 
+  // Shifts focus directly to your slider setting relative to the rectangular ray edge
+  const targetMidpointPeak = distanceToBoxEdge * config.peakRatio; 
+
+  const baseVariance = (maxConstraint - minConstraint);
+  const standardDeviation = state.isDiagonal ? (baseVariance * 0.26) : (baseVariance * 0.12);
+
+  let calculatedLength = targetMidpointPeak + (randomNormal() * standardDeviation);
+  const softFloorThreshold = distanceToBoxEdge * 0.35;
+
+  if (calculatedLength < softFloorThreshold) {
+    const excessDrop = softFloorThreshold - calculatedLength;
+    const scalingFactor = (softFloorThreshold - minConstraint);
+    calculatedLength = softFloorThreshold - (scalingFactor * (1 - Math.exp(-excessDrop / scalingFactor)));
+  }
+
+  calculatedLength = Math.min(maxConstraint, Math.max(minConstraint, calculatedLength));
+  targetLengths[index] = Math.floor(calculatedLength);
+}
+
+function calculateAllTargets() {
+  for (let i = 0; i < arrowStates.length; i++) {
+    calculateSingleTarget(i);
+  }
+}
+
+function animateAmplitude() {
+  globalTime += config.flipSpeed; 
+
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const proportionalScale = rect.width / 500;
+  const currentTime = Date.now();
+
+  const baseEdgeReach = centerX; 
+  
+  diagRect.setAttribute('x', 0);
+  diagRect.setAttribute('y', 0);
+  diagRect.setAttribute('width', rect.width);
+  diagRect.setAttribute('height', rect.height);
+
+  outerDisk.setAttribute('cx', centerX);
+  outerDisk.setAttribute('cy', centerY);
+  outerDisk.setAttribute('r', baseEdgeReach * config.maxBoundRatio);
+
+  innerDisk.setAttribute('cx', centerX);
+  innerDisk.setAttribute('cy', centerY);
+  innerDisk.setAttribute('r', baseEdgeReach * config.minBoundRatio);
+
+  // Dynamic diagnostic radius follows peak slider
+  peakCircle.setAttribute('cx', centerX);
+  peakCircle.setAttribute('cy', centerY);
+  peakCircle.setAttribute('r', baseEdgeReach * config.peakRatio);
+
+  const guideRipples = 3; 
+  const maxGuideHeight = baseEdgeReach * config.maxBoundRatio;
+  const maxAmpWidth = rect.width * config.amplitudeRatio;
+  
+  let guideD = `M${centerX},${centerY}`;
+  const gSegment = maxGuideHeight / guideRipples;
+  for (let i = 0; i < guideRipples; i++) {
+    const yStart = centerY - (i * gSegment);
+    const yEnd = centerY - ((i + 1) * gSegment);
+    const yControl = yStart - (gSegment / 2);
+    const dir = (i % 2 === 0) ? 1 : -1;
+    const xControl = centerX + (maxAmpWidth * dir);
+    guideD += ` Q${xControl},${yControl} ${centerX},${yEnd}`;
+  }
+  waveGuide.setAttribute('d', guideD);
+
+  wavePaths.forEach((path, index) => {
+    const tip = arrowTips[index];
+    const state = arrowStates[index];
+    const group = arrowGroups[index];
+    
+    if (currentTime >= state.nextTargetTime) {
+      calculateSingleTarget(index);
+      state.nextTargetTime = currentTime + (Math.random() * 2000 + 1500);
+    }
+
+    arrowLengths[index] += (targetLengths[index] - arrowLengths[index]) * config.lerpFactor;
+    const currentLength = arrowLengths[index];
+    
+    group.style.setProperty('--cx', `${centerX}px`);
+    group.style.setProperty('--cy', `${centerY}px`);
+
+    const uniqueTime = globalTime + state.timeOffset;
+    const currentSin = Math.sin(uniqueTime);
+    const currentSign = Math.sign(currentSin);
+
+    if (state.lastSign !== 0 && currentSign !== state.lastSign) {
+      state.ripples = Math.floor(Math.random() * 4) + 2;
+    }
+    state.lastSign = currentSign; 
+
+    const dynamicStrokeWidth = 6 * proportionalScale;
+    path.setAttribute('stroke-width', `${dynamicStrokeWidth}px`);
+    
+    const baseAmplitude = rect.width * config.amplitudeRatio; 
+    const amp = baseAmplitude * currentSin;
+
+    let dString = `M${centerX},${centerY}`;
+    const segmentHeight = currentLength / state.ripples;
+
+    for (let i = 0; i < state.ripples; i++) {
+      const yStart = centerY - (i * segmentHeight);
+      const yEnd = centerY - ((i + 1) * segmentHeight);
+      const yControl = yStart - (segmentHeight / 2);
+      
+      const directionModifier = (i % 2 === 0) ? 1 : -1;
+      const xControl = centerX + (amp * directionModifier);
+
+      dString += ` Q${xControl},${yControl} ${centerX},${yEnd}`;
+    }
+    path.setAttribute('d', dString);
+
+    const tipY = centerY - currentLength;
+    const headWidth = 14 * proportionalScale;
+    const headHeight = 22 * proportionalScale;
+    
+    const pointsString = `-${headWidth},0 0,-${headHeight} ${headWidth},0`;
+    tip.setAttribute('points', pointsString);
+    tip.setAttribute('transform', `translate(${centerX}, ${tipY})`);
+  });
+
+  requestAnimationFrame(animateAmplitude);
+}
+
+function randomNormal() {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random(); 
+  while(v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+const settingsBtn = document.querySelector('.settings-btn');
+const closeBtn = document.querySelector('.close-btn');
+const overlay = document.querySelector('.config-overlay');
+
+settingsBtn.addEventListener('click', () => {
+  overlay.classList.add('open');
+  document.body.classList.add('show-debug'); 
+});
+
+closeBtn.addEventListener('click', () => {
+  overlay.classList.remove('open');
+  document.body.classList.remove('show-debug'); 
+});
+
+overlay.addEventListener('click', (e) => { 
+  if(e.target === overlay) {
+    overlay.classList.remove('open');
+    document.body.classList.remove('show-debug');
+  } 
+});
+
+document.getElementById('param-always-debug').addEventListener('change', (e) => {
+  if(e.target.checked) {
+    document.body.classList.add('always-debug');
+  } else {
+    document.body.classList.remove('always-debug');
+  }
+});
+
+document.getElementById('param-lerp').addEventListener('input', (e) => config.lerpFactor = parseFloat(e.target.value));
+document.getElementById('param-amp').addEventListener('input', (e) => config.amplitudeRatio = parseFloat(e.target.value));
+document.getElementById('param-flip-speed').addEventListener('input', (e) => config.flipSpeed = parseFloat(e.target.value));
+document.getElementById('param-min-bound').addEventListener('input', (e) => {
+  config.minBoundRatio = parseFloat(e.target.value);
+  calculateAllTargets();
+});
+
+// Map Peak slider input events immediately to cluster logic
+document.getElementById('param-peak-bound').addEventListener('input', (e) => {
+  config.peakRatio = parseFloat(e.target.value);
+  calculateAllTargets();
+});
+
+document.getElementById('param-max-bound').addEventListener('input', (e) => {
+  config.maxBoundRatio = parseFloat(e.target.value);
+  calculateAllTargets();
+});
+
+document.getElementById('param-color-main').addEventListener('input', (e) => {
+  document.body.style.setProperty('--theme-color', e.target.value);
+});
+document.getElementById('param-color-glow').addEventListener('input', (e) => {
+  document.body.style.setProperty('--glow-color', e.target.value);
+});
+
+window.addEventListener('resize', calculateAllTargets);
+calculateAllTargets();
+
+for(let i=0; i<arrowLengths.length; i++) {
+  arrowLengths[i] = targetLengths[i];
+}
+
+animateAmplitude();
+
+
+</script>
+</body></html>

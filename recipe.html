@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Family Recipes</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #EBD5B3;
+      color: #1f1812;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Alegreya', serif;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 3rem;
+      max-width: 48rem;
+      overflow-wrap: break-word;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Roboto', sans-serif;
+      color: #18120d;
+      line-height: 1.3;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      margin-top: 2.25rem;
+      margin-bottom: 0.75rem;
+      padding-top: 0.5rem;
+      border-bottom: 2px solid rgba(31, 24, 18, 0.2);
+      padding-bottom: 0.35rem;
+    }
+
+    h1:first-of-type {
+      margin-top: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    ul, ol {
+      padding-left: 1.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.45rem;
+    }
+
+    li > ol,
+    li > ul {
+      margin-top: 0.45rem;
+      margin-bottom: 0.45rem;
+    }
+
+    a {
+      color: #0b3d91;
+      text-decoration: underline;
+      text-underline-offset: 0.18em;
+      font-weight: 700;
+    }
+
+    a:visited {
+      color: #4a154b;
+    }
+
+    a:focus-visible,
+    h1:focus-visible {
+      outline: 3px solid #0b3d91;
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .index-nav ul {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      gap: 0.35rem 1.25rem;
+    }
+
+    .index-nav li {
+      margin-bottom: 0;
+    }
+
+    .index-nav a,
+    .return-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.35rem 0.25rem;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 1.1875rem;
+        line-height: 1.65;
+        padding: 1rem 1rem 2.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .index-nav ul {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<main id='placeholder'>
+</main>
+<script>
+var md = `
+<a name='index'></a>
+# Index
+
+<a name='angela-surprise-dinner'></a>
+# Angela's Surprise Dinner
+
+## Ingredients
+* 1 lb ground beef, browned
+* 1 diced green pepper
+* slices of pepperoni
+* 1 can tomatoes with oregano, drained
+* 1 cup water
+* 2 pkgs Ramen Noodles (Beef & Seasoning)
+* 1 cup Mozzarella
+* Parmesan Cheese
+
+## Directions
+1. Combine in large skillet
+
+[Return to Index](#index)
+<a name='anita-chocolate-chip-oatmeal-cookies'></a>
+# Anita's Chocolate Chip Oatmeal Cookies
+
+## Ingredients
+* 1 cup sugar
+* 1 cup butter (2 sticks)
+* 1 cup brown sugar
+* 2 eggs
+* 1 teaspoon salt
+* 1 teaspoon baking soda
+* 1 teaspoon vanilla
+* 2 cups flour
+* 2 cups oatmeal
+* 2 cups chocolate chips
+
+## Directions
+1. Cream ingredients together except for the flour, oatmeal and chocolate chips.
+1. Gradually add flour, oatmeal and chocolate chips.
+1. Bake 350°F in an ungreased pan for 10 minutes.
+
+
+[Return to Index](#index)
+<a name='arroz'></a>
+# Arroz (Mexican rice)
+
+## Ingredients
+* 2 tablespoons oil (canola)
+* 1 cup white rice
+* 1 small onion (chopped)
+* 1/4 cup tomato sauce
+* 3 1/2 teaspoons caldo de tomate
+* 3 1/2 cups water
+
+## Directions
+1. Heat oil in pan at medium heat. Add rice and stir constantly until light brown color.
+1. Lower heat and add the onion. Sauté until the union get a little soft.
+1. Add water, tomato sauce, and caldo de tomato to pan. Reduce heat to low and cook for 20 to 25 minutes till fluffy.
+
+[Return to Index](#index)
+<a name='bachelor-button-cookies'></a>
+# Bachelor Button Cookies
+
+## Ingredients
+* 3/4 cup butter
+* 1 cup brown sugar
+* 1 egg
+* 1 teaspoon vanilla
+* 2 cups flour
+* 3/4 teaspoon salt
+* 1/2 chopped nuts
+* 1/2 cup maraschino cherries (chopped)
+* 1/2 cup coconut (shredded)
+* 1 teaspoon baking soda
+
+## Directions
+1. In a large bowl cream butter and sugar until light and fluffy.
+1. Add egg and flour. Add in sifted flour, baking soda, salt, nuts, cherries, and coconut.
+1. Place teaspoon dollops of mixture on a greased cookie sheet. 
+1. Bake at 375°F for 10-12 minutes.
+
+[Return to Index](#index)
+<a name='buffalo-chicken-dip'></a>
+# Buffalo Chicken Dip
+
+## Ingredients
+* 2 10oz cans chunk chicken, drained
+* 2 8oz packages cream cheese, softened
+* 1 cup ranch dressing
+* 3/4 cup pepper sauce (e.g. Cholula, Frank's Red Hot, etc.)
+* 1 1/2 cups cheddar cheese, shredded
+
+## Directions
+1. Heat chicken & hot sauce in a skillet over medium heat until heated through.
+1. Stir in cream cheese and ranch dressing. Cook, stirring until well blended and warm.
+1. Mix in half of the shredded cheese and transfer the mixture to a slow cooker.
+1. Sprinkle the remaining cheese over the top and cook on low until hot and bubbly.
+Serve with tortilla chips, celery, or crackers.
+
+[Return to Index](#index)
+<a name='burrito-meat'></a>
+# Burrito Meat by Gramma Peka
+
+## Ingredients
+* 10 lbs 85% ground beef
+* 3 lbs pork sausage
+* 2 tablespoons ground cumin
+* 2 tablespoons garlic powder
+* 1/2 cup vinegar
+* 2 cups chili powder (Pedro Lopez brand preferred)
+
+## Directions
+1. Mix it all together and place in refrigerator for 1 to 2 days.
+2. Fully cook till browned.
+3. Use it or freeze until ready to use.
+
+[Return to Index](#index)
+<a name='calabacin'></a>
+# Calabacín con Puerco
+
+## Ingredients
+* 1 lbs Pork steak
+* 4 medium zucchini (diced with peel)
+* 1/2 medium onion
+* 1 small can tomato sauce
+* salt/garlic salt to taste
+* 2 teaspoons Knorr, Caldo de Tomate
+* Flour tortillas
+* 2-3 tablespoons oil
+* (optional) 1 medium tomato, diced
+
+## Directions
+1. Cook and brown pork steak in about 2-3 tablespoons oil.
+1. Remove and cut into 1-to-2 inch pieces.
+1. Combine pork, zucchini and onion back into the pan.
+1. Add 1/4-1/2 cup water, 1/2 the tomato sauce, and Knorr.
+1. Cover and cook on low for 20-25 minutes (until zucchini gets a litte soft)
+1. (optional) Add the tomato towards the last 5-10 minutes. 
+
+[Return to Index](#index)
+<a name='chicken-tortilla-soup'></a>
+# Chicken Tortilla Soup
+
+## Ingredients
+* 4 corn tortillas
+* 1/2 cup onion, chopped
+* 3 boneless skinless chicken breast-halves, cooked and shredded
+* 1 garlic clove (minced)
+* 1/4 teaspoon chili powder
+* 1/4 teaspoon ground cumin
+* 2(14 1/2 oz) cans chicken broth
+* 1(14 1/2 oz) of diced tomatoes, undrained
+* 1(4 oz) can chopped green chilies, undrained
+* 2 tablespoons fresh cilantro, chopped
+* 1/2 cup shredded cheddar or colby-monterey jack cheese
+* 4 slice fresh limes
+
+## Directions
+1. Combine the chicken broth, green chilies, tomatoes with green chilies, onion, and garlic in a soup pot. Add the shredded chicken. Bring to a boil, stirring frequently. Reduce heat and simmer for 30-35 minutes.
+2. Add the lime juice, cilantro, cayenne, and cumin. Simmer for 10-15 minutes longer.
+3. Cut the tortillas into 1/2 x 2-inch strips. Fry in hot oil in skillet until golden brown; drain on paper towels or cooling rack.
+4. Ladle the soup into bowls. Garnish with shredded cheese, lime, and the tortilla strips.
+
+[Return to Index](#index)
+<a name='chicken-enchiladas'></a>
+# Chicken Enchiladas
+
+## Ingredients
+* 4 boneless skinless chicken breasts, cooked and shredded
+* 1/4 cup chicken broth1 stick butter
+* 1 cup diced onions
+* 1/2 cup chopped green chilies (or small can)
+* 1 8oz package of cream cheese
+* 1/2 pint whipping cream
+* 1 1/2 cups ??Jack cheddar cheese
+* 10-12 flour tortillas
+
+## Directions
+1. Melt butter, cream cheese, broth and add green chiles, onion and shredded chicken.
+2. Fill tortillas, put in greased 9x13 pan.
+3. Pour whip cream over top, add cheese.
+4. Cover with aluminum foil and bake at 350°F for 30 minutes.
+5. Then uncover and back another 15 minutes till brown.
+
+
+[Return to Index](#index)
+<a name='chili-rellenos'></a>
+# Chili Rellenos
+
+## Ingredients
+* 4 large banana peppers
+* ? cheddar cheese (grated)
+* onion (chopped)
+* 5 eggs
+* ? cup flour
+* ? cup oil
+* tomato sauce
+
+## Directions
+1. Roast peppers at medium heat. Remove when blistered on all sides and set aside to cool.
+1. When cooled, cut a slit down the length of the pepper to remove seeds and membrane. stuff with cheddar cheese and onions.
+1. Crack and put the egg whites into a bowl. Keeping the yolks separate bowl. Beat the egg whites till ?. Then, beat in the egg yolks.
+1. Roll the stuffed peppers in flour, and then the egg batter. 
+1. Add to a preheated pan of oil at ? heat. Cook on one side till golden brown, then flip and add the rest of the egg batter over top. 
+1. In another pan combine a small can of tomato sauce & grated cheese.
+
+[Return to Index](#index)
+<a name='chocolate-covered-peanuts'></a>
+# Chocolate Covered Peanuts
+Makes about 3 dozen.
+
+## Ingredients
+* 1 ?oz bag salted peanuts
+* 1 ?oz package almond bark
+* 1 ?oz package semi-sweet chocolate chips
+
+## Directions
+1. Rough chop almond bark into pieces to make it easy to melt. Combine almond bark and chops in a microwave safe bowl. 
+1. Melt in 1 minutes intervals until smooth.
+1. Combine with peanuts. Spoon onto waxed paper and allow to harden.
+
+[Return to Index](#index)
+<a name='crock-pot-taco-soup'></a>
+# Crock-Pot Taco Soup
+
+## Ingredients
+* 2 lbs ground beef (85%)
+* 1(46 oz) can tomato juice
+* 2(26 oz) cans dice tomatoes, undrained
+* 2 cans whole kernel corn, drained
+* 2 cans light red kidney beans, undrained
+* 1 package taco seasoning
+* 1 package dry rand dressing mix
+* 1/2 cup chopped onions
+* Tortilla chips
+
+## Directions
+1. Brown ground beef and drain grease.
+2. Stir in taco seasoning to beef.
+3. Move to slow cooker and add the remaining ingredients.
+4. Heat until warm.
+Server with tortilla chips, sour cream, and shredded cheese.
+
+[Return to Index](#index)
+<a name='enchiladas'></a>
+# Enchiladas
+Makes 5 dozen.
+
+## Ingredients
+* 5 lbs potatoes
+* 3 lbs cheese (medium cheddar) grated 
+* 1 1/2 onions chopped
+* 3-4 lbs ground beef (85%)
+* 2-3 tablespoons chili powder
+* 1 teaspoon cumin
+* 1/2 cup white vinegar
+* ? corn or flour tortillas 
+
+## Directions
+1. Combine ground beef, chili powder, vinegar, and cumin. Mix well and place in refrigerator overnight or at least 1hr(?my guess).
+1. Skin and boil potatoes until soft(approximately ? minutes)(?are the chopped before boiling)
+1. Chop and set aside
+1. Prepare [enchilada sauce](#enchilada-sauce)
+1. Brown beef mixture over medium-high heat &lt;?&gt; minutes, stirring occasionally until thoroughly cooked; drain. Salt to taste.
+1. Combined cooked beef, potatoes, onion, and cheese forming the enchilda filling
+1. In batches of 10-12
+    1. Heat 1 pan of hot oil till and have the enchilada sauce with a little bit of oil in another pan.
+    2. Dip tortilla in pan with hot oil until warm and pliable, then dip in the pan with sauce.
+    3. Add 1/4 cup of the enchilda filling and add place in aluminum foiled cookie sheet
+
+[Return to Index](#index)
+<a name='enchilada-sauce'></a>
+# Enchilada Sauce
+
+## Ingredients
+* ? oz Chile Ancho or Chili Pods
+* water
+* ? salt
+* ? ground cumin
+* any other seasonging
+* (optional) ? tomato sauce
+
+## Directions
+1. Remove stem and seeds from the chilis and add to medium-sized sauce pan adding enough water to just cover. 
+1. Bring to boil for about 10-12 minutes.
+1. Remove 1 cup of water and set aside.
+1. Drain hot water from pot and add cold water.
+1. Separate the pepper meat from the skins, tossing the skins.
+1. Add the pepper meat, cup of water set aside earlier, salt, and cumin to a blender.
+1. Blend until smooth.
+
+[Return to Index](#index)
+<a name='el-dorado'></a>
+# El Dorado by Anita Laffey
+
+## Ingredients
+* 1 bad medium corn chips
+* 1 lb ground beef browned
+* 2 tablespoons onion chopped
+* 1/2 teaspoon garlic (?minced)
+* 2 cans tomato sauce (small)
+* 1 cup cottage cheese
+* 1 cup sour cream
+* 1 cup sliced black olives
+* 1 cup small Ortega chilies diced
+* ? oil
+* ? grated cheese
+
+## Directions
+1. Combine ground beef, onion, garlic, and tomato sauce forming a meat mixture.
+2. Combine cottage cheese, sour cream, black olive, and diced chilies forming a cottage cheese mixture.
+3. In an oiled 2 quart casserole dish, place layer of chips, meat mixture, cottage cheese mixture, grated cheese. Repeat.
+4. Bake at 375°F for 40 minutes
+
+[Return to Index](#index)
+<a name='hot-relish'></a>
+# Hot Relish by Gramma Peka
+
+## Ingredients
+* 3 or 4 jalapenos (substitute serranos if you want hotter)
+* 1 small can green chilis (chopped)
+* 1 small can ripe black olives (chopped)
+* 3 or 4 small scallions (chopped)
+* 2 medium tomatoes (chopped)
+* 1 1/2 teaspoon vinegar
+* 3 tablespoons oil
+* 1 teaspoon garlic salt
+* salt
+* pepper
+
+## Directions
+1. Combine and allow to chill for an hour or two.
+
+[Return to Index](#index)
+<a name='chili-con-queso'></a>
+# Mom's Chili con Queso
+
+## Ingredients
+* 1 carton Velveeta cheese
+* 1 lb sausage or hamburger
+* 1 can of chicken gumbo
+* 1 can of Rotel
+
+## Directions
+1. Brown meat over medium heat, then add to crockpot.
+1. Blend Rotel and chicken gumbo together in blender, then add to crockpot
+1. Cut cheese into cubes and melt in crockpot. 
+
+[Return to Index](#index)
+<a name='pecan-balls'></a>
+# Pecan Balls
+
+## Ingredients
+* 1/2 lb butter
+* 4 tablespoons sugar
+* 2 cups pecans, chopped
+* 2 cups flour
+* 1 teaspoon vanilla
+
+## Directions
+1. Cream butter and sugar together. Add chopped pecans, flour, and vanilla.
+1. Bake at 270°F for 30 minutes. (? do we really bake before balling)
+1. Roll into balls, should get about 36.
+1. When down baking roll in powder sugar, twice.
+
+[Return to Index](#index)
+<a name='popcorn-balls'></a>
+# Popcorn Balls by Gramma Peka
+
+## Ingredients
+* 1 1/2 cup sugar
+* 1 cup white syrup
+* 1/8 cup water
+* 1 1/2 cups popped popcorn.
+* 1 tablespoon butter
+* 1 teaspoon vanilla
+* (optional) food coloring of choice
+
+## Directions
+1. Combine sugar, syrup and water in a saucepan bring to boil.
+2. Remove from heat, stir in butter and vanilla. Add 1-2 drops food coloring.
+3. Poor mixture over popcorn in a large bowl. Stir. Shape into popcorn bowls.
+(Coating hands in butter makes it easier to form into balls without sticking to hands)
+
+ 
+[Return to Index](#index)
+<a name='tamales'></a>
+# Tamales by Gramma Peka
+
+## Ingredients
+
+### Filling
+* 10 lbs Boston butt pork
+* 1 teaspoon ground cumin
+* 2 teaspoons garlic salt
+
+### Chile Sauce:
+* 1 lb chili ancho (aka Ancho Chili Pods)
+* 1/2/2 cups liquid(?)
+* salt 
+
+### Husks and dough 
+* 10 lbs masa
+* 2 1/2 lbs shortening (lard, e.g. Morrell Snow Cap Lard)
+* 1 1/2 - 2 tablespoons baking powder
+* 1 lb of corn husks
+* salt 
+
+## Directions
+1. Soak corn husks overnight. Dry and set aside.
+1. Prepare masa:
+    1. Add baking powder, salt, and shortening into masa. 
+    1. Mix by hand then make 5 or 6 balls the size of grapefruits.
+    1. Mix each ball in mixer(kneading attachment) for 4 minutes until you can take a pea size piece of masa and drop it into a cold glass of water and the piece floats.
+1. Prepare sauce:
+    1. Mix chili's
+1. Prepare meat:
+    1. Boil 1 cup broth with 2 tablespoons shortening. 
+    1. Dissolve a small piece of masa in the broth or water.
+    1. Add mixutre to chili sauce and bring to a boil. (Masa should be the size of medium orange &lt;? is this the masa added&gt;).
+    1. If chili is to dark add 1 16 oz can of tomato sauce.
+    1. Simmer cut meat until browned and fully cooked. Salting meat to taste during cooking.
+1. To spread the masa on the husks, place the husk on top of the masa and take a spoonful of masa and spread it with the back of the spoon.
+1. Add chili and meat and fold husk over and squeeze obttom end.
+1. Wrap in white wax paper and can freeze until ready to cook.
+
+
+todo: resume here
+
+[Return to Index](#index)
+<a name='texi-mexi-mix'></a>
+# Texi-Mexi Mexis
+
+## Ingredients
+* 1 lb hamburger (? is this cooked)
+* 1/2 cup chopped onion
+* 1 can mexi beans
+* 1 can small green chilies
+* 2 tablespoons green pepper
+* 1/2 cup minute rice
+* ? cheese (cheddar)
+
+## Directions
+1. Combine in a casserole dish.
+2. Cook at 350°F for 35 minutes.
+3. Top with cheddar cheese, and cook for 15 minutes more.
+
+[Return to Index](#index)
+<a name='tortillas'></a>
+# Aunt Mary's Tortillas
+(Tried once many moons ago and they didn't come out well. ~Carleen Adame-Garza)
+
+## Ingredients
+* 4 1/2 cups flour
+* 2 tablespoons oleo
+* 2 1/2 teaspoons baking powder
+* 1 1/3 cup cold(or luke-warm) water
+
+## Directions
+1. Mix flour and baking powder, blend oleo in by hard or with pastry blender.
+1. Add the water, mix well into a soft dough.
+1. Cover with a dish towel let proof for 1/2 hour.
+1. Split into small balls 2 1/2 inches in diameter or smaller.
+1. Then roll them out and cook on a plaqua(? did you mean comal). Turn only twice.
+
+[Return to Index](#index)
+`;
+var converter = new showdown.Converter();
+var html = converter.makeHtml(md);
+var placeholder = document.getElementById('placeholder');
+placeholder.innerHTML = html;
+
+var headings = Array.from(placeholder.querySelectorAll('h1'));
+var indexHeading = headings.find(heading => heading.textContent.trim() === 'Index');
+
+if (indexHeading) {
+  var indexAnchorParagraph = indexHeading.previousElementSibling;
+  if (indexAnchorParagraph && indexAnchorParagraph.querySelector('a[name]')) {
+    indexAnchorParagraph.remove();
+  }
+  indexHeading.id = 'index';
+  indexHeading.setAttribute('tabindex', '-1');
+
+  var nav = document.createElement('nav');
+  nav.className = 'index-nav';
+  nav.setAttribute('aria-labelledby', 'index');
+
+  var indexList = document.createElement('ul');
+  nav.appendChild(indexList);
+  indexHeading.after(nav);
+
+  headings.forEach(heading => {
+    if (heading === indexHeading) return;
+
+    var prev = heading.previousElementSibling;
+    var anchor = prev && prev.querySelector('a[name]');
+    var id = anchor && anchor.getAttribute('name');
+
+    if (anchor && prev.tagName === 'P' && prev.textContent.trim() === '') {
+      prev.remove();
+    }
+
+    if (!id) {
+      id = heading.textContent.trim().toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+
+    heading.id = id;
+    heading.setAttribute('tabindex', '-1');
+
+    var item = document.createElement('li');
+    var link = document.createElement('a');
+    link.href = `#${id}`;
+    link.textContent = heading.textContent.trim();
+    item.appendChild(link);
+    indexList.appendChild(item);
+  });
+}
+
+placeholder.querySelectorAll('a[href="#index"]').forEach(link => {
+  link.classList.add('return-link');
+});
+</script>
+</body>
+</html>

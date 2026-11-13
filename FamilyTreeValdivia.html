@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  /* background: #222; */
+  background: #a3f5cf;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
+}
+
+svg {
+	display: block;
+	width: min(calc(100vw - 16px), calc(100dvh - 16px));
+	height: min(calc(100vw - 16px), calc(100dvh - 16px));
+}
+
+.tracks {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.bodies path {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.bodies .text-path {
+  stroke: none;
+}
+
+/* .bodies text {
+  fill: #000;
+  font: 500 16px "Helvetica Neue"; 
+}*/
+
+</style>
+<svg></svg>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+var chart = function(){
+
+// https://github.com/observablehq/stdlib/blob/main/src/dom/uid.js
+var count = 0;
+function uid(name) {
+  return new Id("O-" + (name == null ? "" : name + "-") + ++count);
+}
+
+function Id(id) {
+  this.id = id;
+  this.href = new URL(`#${id}`, location) + "";
+}
+
+Id.prototype.toString = function() {
+  return "url(" + this.href + ")";
+};
+
+  const root = pack(data);
+  let focus = root;
+  let view;
+var svg = d3.select("svg");
+
+  //const svg = d3.select("svg")
+  svg.attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
+     .attr("id","circle-tree")
+      .style("background", color(0))
+      .style("cursor", "pointer")
+      .on("click", (event) => zoom(event, root));
+
+  const node = svg.append("g")
+    .selectAll("circle")
+    .data(root.descendants().slice(1))
+    .join("circle")
+      .attr("fill", d => d.data.deceased?"#d6d0b9": (d.children ? color(d.depth) : "#f0e6cd"))
+      .attr("pointer-events", d => !d.children ? "none" : null)
+      .on("mouseover", function() { d3.select(this).attr("stroke", "#FFF"); })
+      .on("mouseout", function() { d3.select(this).attr("stroke", null); })
+      .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
+
+  const label = svg.append("g")
+      .style("font", "24px Verdana")
+	  .style("font-weight", "bold")
+	  .style("text-shadow","#FFF 1px 0 10px")
+      .attr("pointer-events", "none")
+      .attr("text-anchor", "middle")
+    .selectAll("text")
+    .data(root.descendants())
+    .join("text")
+      .style("fill-opacity", d => d.parent === root ? 1 : 0)
+      .style("display", d => d.parent === root ? "inline" : "none")
+      .text(d => d.data.name);
+
+  zoomTo([root.x, root.y, root.r * 2]);
+
+  function zoomTo(v) {
+    const k = width / v[2];
+
+    view = v;
+
+    label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    node.attr("r", d => d.r * k);
+  }
+
+  function zoom(event, d) {
+    const focus0 = focus;
+
+    focus = d;
+
+    const transition = svg.transition()
+        .duration(event.altKey ? 7500 : 750)
+        .tween("zoom", d => {
+          const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+          return t => zoomTo(i(t));
+        });
+
+    label
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+      .transition(transition)
+        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  }
+
+  return svg.node();
+};
+// Local CSV file (or replace with Google Sheets published CSV URL:
+// e.g. "https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<GID>")
+const DATA_CSV_URL = "FamilyTreeValdivia.csv";
+
+function parseBoolean(val) {
+  return String(val || "").trim().toLowerCase() === "true";
+}
+
+function buildFamilyTreeData(rows) {
+  const childrenByParent = new Map();
+
+  for (const row of rows) {
+    const id = String(row.id || "").trim();
+    if (!id) continue;
+    const parentId = String(row.parent_id || "").trim();
+    if (!childrenByParent.has(parentId)) {
+      childrenByParent.set(parentId, []);
+    }
+    childrenByParent.get(parentId).push(row);
+  }
+
+  function buildNode(row) {
+    const id = String(row.id || "").trim();
+    const unitName = String(row.unit_name || "").trim();
+    const name = String(row.name || "").trim();
+    const value = Number(row.value) || 0;
+    const deceased = parseBoolean(row.deceased);
+
+    const spouseName = String(row.spouse_name || "").trim();
+    const spouseValue = Number(row.spouse_value) || 0;
+    const spouseDeceased = parseBoolean(row.spouse_deceased);
+
+    const childRows = childrenByParent.get(id) || [];
+
+    const personLeaf = {
+      name: name,
+      value: value,
+      ...(deceased ? { deceased: true } : {})
+    };
+
+    const isFamilyUnit = Boolean(unitName || spouseName || childRows.length > 0);
+    if (!isFamilyUnit) {
+      return personLeaf;
+    }
+
+    const unitChildren = [personLeaf];
+
+    if (spouseName) {
+      unitChildren.push({
+        name: spouseName,
+        value: spouseValue,
+        ...(spouseDeceased ? { deceased: true } : {})
+      });
+    }
+
+    if (childRows.length > 0) {
+      unitChildren.push({
+        name: "Children",
+        children: childRows.map(buildNode)
+      });
+    }
+
+    return {
+      name: unitName || name,
+      children: unitChildren
+    };
+  }
+
+  const rootRows = childrenByParent.get("") || [];
+  return {
+    name: "FamilyTree",
+    children: rootRows.map(buildNode)
+  };
+}
+
+var data = null;
+
+var b = Math.max(1, Math.min(window.innerWidth, window.innerHeight) - 16);
+var width = b;
+var height = b;
+
+color = d3.scaleLinear()
+    .domain([0, 7])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl);
+
+var pack = data => d3.pack()
+    .size([height, width])
+    .padding(3)
+  (d3.hierarchy(data)
+    .sum(d => d.value)
+    .sort((a, b) => b.value - a.value));
+
+d3.csv(DATA_CSV_URL).then(rows => {
+  data = buildFamilyTreeData(rows);
+  chart();
+}).catch(err => {
+  console.error("Failed to load family tree CSV:", err);
+});
+</script>
+<html>
+</html>

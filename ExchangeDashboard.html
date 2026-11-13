@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head>
+
+  <meta charset="UTF-8">
+  <title>Exchanges</title>  
+
+  <style>
+:root {
+  --bg-color: #0b0e14;
+  --card-bg: #141822;
+  --text-color: #c9d1d9;
+  --accent-color: #ffb703; 
+  --market-open: rgba(0, 180, 136, 0.2);
+  --market-open-border: #00b488;
+  --market-ext: rgba(56, 189, 248, 0.15);
+  --market-ext-border: #38bdf8;
+  --market-closed-bg: rgba(248, 81, 73, 0.08);
+  --market-closed-border: #f85149;
+  --active-row-bg: rgba(255, 183, 3, 0.04);
+  --off-bg: rgba(20, 24, 34, 0.6);
+  --grid-line: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0; padding: 20px;
+  background-color: var(--bg-color); color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  min-height: 100vh; box-sizing: border-box; user-select: none;
+}
+
+.app-container { max-width: 1200px; margin: 0 auto; width: 100%; }
+
+.center-clock {
+  display: flex; align-items: center; justify-content: center; gap: 15px;
+  margin: 10px auto 25px auto; padding: 10px 24px;
+  background: var(--card-bg); border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #30363d;
+  width: fit-content; white-space: nowrap;
+}
+
+.select-wrapper select {
+  background: #21262d; border: 1px solid #30363d; color: var(--accent-color);
+  font-size: 0.85rem; font-weight: bold; padding: 4px 8px; border-radius: 6px;
+  outline: none; cursor: pointer;
+}
+
+#local-time { font-size: 1.6rem; font-weight: bold; color: var(--accent-color); font-variant-numeric: tabular-nums; }
+#local-date { font-size: 1.05rem; opacity: 0.8; }
+
+.clock-label {
+  font-size: 0.75rem; font-weight: bold; color: var(--accent-color);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  background: rgba(255, 183, 3, 0.1); padding: 3px 8px; border-radius: 4px;
+  border: 1px solid rgba(255, 183, 3, 0.2);
+}
+
+.control-btn {
+  background: #21262d; color: var(--text-color); border: 1px solid #30363d;
+  padding: 5px 12px; font-size: 0.75rem; font-weight: 600; border-radius: 6px;
+  cursor: pointer; transition: background-color 0.2s;
+}
+
+.control-btn:hover { background: #30363d; border-color: #8b949e; }
+.config-btn { border-color: var(--accent-color); color: var(--accent-color); }
+.config-btn:hover { background: rgba(255, 183, 3, 0.1); }
+.hidden { display: none !important; }
+
+.timeline-container {
+  position: relative; background: var(--card-bg); border: 1px solid #30363d;
+  border-radius: 12px; padding-bottom: 20px; overflow-x: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3); cursor: grab;
+}
+.timeline-container:active { cursor: grabbing; }
+
+.timeline-header-row {
+  position: sticky; top: 0; height: 45px;
+  background: var(--card-bg); border-bottom: 2px solid #30363d; z-index: 20;
+}
+#exchanges-timeline-grid { display: flex; flex-direction: column; }
+.timeline-header-row, .zone-row { display: flex; align-items: center; }
+
+.current-time-line {
+  position: absolute; top: 0; bottom: -2000px; left: 50%;
+  width: 2px; background-color: var(--accent-color); z-index: 10;
+  pointer-events: none; box-shadow: 0 0 8px var(--accent-color);
+}
+.line-label {
+  position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+  background: var(--accent-color); color: #000; font-size: 0.7rem; font-weight: bold;
+  padding: 2px 6px; border-radius: 4px;
+}
+
+.zone-row { height: 75px; border-bottom: 1px solid var(--grid-line); position: relative; }
+.zone-row.market-active { background-color: var(--active-row-bg); }
+.zone-row:last-child { border-bottom: none; }
+
+.zone-label-stub { width: 22%; min-width: 180px; }
+.zone-label-block {
+  width: 22%; min-width: 180px; padding-left: 20px; z-index: 5;
+  background: var(--card-bg); box-shadow: 10px 0 10px -5px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; box-sizing: border-box; pointer-events: none;
+}
+.zone-row.market-active .zone-label-block { background: #1a1c23; }
+
+.zone-title { font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zone-current-val { font-size: 0.75rem; opacity: 0.7; margin-top: 2px; }
+
+.ticks-track, .zone-track { width: 78%; height: 100%; position: relative; }
+.zone-track { background: var(--off-bg); }
+
+.tick-mark { position: absolute; transform: translateX(-50%); font-size: 0.65rem; opacity: 0.5; top: 15px; }
+.tick-mark::before { content: ''; display: block; width: 1px; height: 6px; background: var(--text-color); margin: 0 auto 2px auto; opacity: 0.6; }
+.grid-vertical-line { position: absolute; top: 0; bottom: 0; width: 1px; background-color: var(--grid-line); pointer-events: none; z-index: 1; }
+
+/* Gantt Highlight Blocks */
+.session-block {
+  position: absolute; top: 20%; height: 60%;
+  border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: bold; box-sizing: border-box;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 0 4px; z-index: 2;
+}
+.session-block.core { background: var(--market-open); border-left: 2px solid var(--market-open-border); border-right: 2px solid var(--market-open-border); color: #00e6ad; }
+.session-block.extended { background: var(--market-ext); border-left: 2px solid var(--market-ext-border); border-right: 2px solid var(--market-ext-border); color: #38bdf8; }
+
+/* Market Holiday / Weekend Closure Track Block */
+.session-block.closed-block {
+  background: var(--market-closed-bg);
+  border-left: 2px solid var(--market-closed-border);
+  border-right: 2px solid var(--market-closed-border);
+  color: #f85149;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Modals */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.75); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.modal-box { background: var(--card-bg); border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 90%; max-width: 450px; }
+.modal-box h3 { margin-top: 0; color: var(--accent-color); }
+.active-zones-list { border: 1px solid #30363d; background: #0b0e14; border-radius: 6px; max-height: 250px; overflow-y: auto; padding: 4px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #21262d; }
+.list-item input { accent-color: var(--accent-color); cursor: pointer; }
+.modal-actions { display: flex; justify-content: flex-end; margin-top: 15px; }
+.save-btn { background: var(--accent-color); color: #000; border: none; }
+
+  </style>
+
+</head>
+<body>
+    
+<div class="app-container">
+  <div class="center-clock">
+    <div class="select-wrapper">
+      <select id="local-anchor-select" title="Change your local anchor timezone"></select>
+    </div>
+    <span id="local-date">Loading date...</span>
+    <span id="local-time">12:00:00 AM</span>
+    <span class="clock-label" id="local-abbr">LOCAL</span>
+    <button id="reset-timeline" class="control-btn hidden">Reset View</button>
+    <button id="open-config" class="control-btn config-btn">⚙️ Toggle Exchanges</button>
+  </div>
+
+  <div class="timeline-container" id="timeline-box">
+    <!-- Pinned Header Wrapper -->
+    <div class="timeline-header-row">
+      <div class="zone-label-stub"></div>
+      <div class="ticks-track" id="ticks-header">
+        <div class="current-time-line" id="live-indicator">
+          <div class="line-label">NOW</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Exchange Lanes Container -->
+    <div id="exchanges-timeline-grid"></div>
+  </div>
+</div>
+
+<!-- Configuration Modal -->
+<div class="modal-overlay hidden" id="config-modal">
+  <div class="modal-box">
+    <h3>Manage Market Views</h3>
+    <div class="config-section">
+      <h4>Active Dashboard Lanes</h4>
+      <div class="active-zones-list" id="modal-exchanges-list"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="control-btn save-btn" id="close-config">Done</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+let exchanges = [
+    { id: 0, name: 'NYSE / NASDAQ (New York)', code: 'NYSE', zone: 'America/New_York', open: 9.5, close: 16, pre: 4, post: 20, visible: true },
+    { id: 1, name: 'London Stock Exchange', code: 'LSE', zone: 'Europe/London', open: 8, close: 16.5, pre: 5.05, post: 17.15, visible: true },
+    { id: 2, name: 'Frankfurt (Xetra)', code: 'FSX', zone: 'Europe/Berlin', open: 9, close: 17.5, pre: 8, post: 22, visible: true },
+    { id: 3, name: 'Tokyo Stock Exchange', code: 'TSE', zone: 'Asia/Tokyo', open: 9, close: 15, pre: 8, post: 17, visible: true, lS: 11.5, lE: 12.5 },
+    { id: 4, name: 'Hong Kong Exchange', code: 'HKEX', zone: 'Asia/Hong_Kong', open: 9.5, close: 16, pre: 9, post: 18, visible: true, lS: 12, lE: 13 },
+    { id: 5, name: 'Bombay Stock Exchange', code: 'BSE', zone: 'Asia/Kolkata', open: 9.15, close: 15.5, pre: 9, post: 15.6, visible: true },
+    { id: 6, name: 'ASX (Sydney)', code: 'ASX', zone: 'Australia/Sydney', open: 10, close: 16, pre: 7, post: 19, visible: true }
+];
+
+const holidays = {
+    'NYSE': ['2026-01-01', '2026-01-19', '2026-02-16', '2026-04-03', '2026-05-25', '2026-06-19', '2026-07-03', '2026-09-07', '2026-11-26', '2026-12-25'],
+    'LSE':  ['2026-01-01', '2026-04-03', '2026-04-06', '2026-05-04', '2026-05-25', '2026-08-31', '2026-12-25', '2026-12-26'],
+    'FSX':  ['2026-01-01', '2026-04-03', '2026-04-06', '2026-05-01', '2026-12-24', '2026-12-25', '2026-12-26'],
+    'TSE':  ['2026-01-01', '2026-01-02', '2026-01-03', '2026-01-12', '2026-02-11', '2026-02-23', '2026-03-20', '2026-04-29', '2026-05-04', '2026-05-05', '2026-05-06', '2026-07-20', '2026-09-21', '2026-09-22', '2026-09-23', '2026-10-12', '2026-11-03', '2026-11-23'],
+    'HKEX': ['2026-01-01', '2026-02-17', '2026-02-18', '2026-02-19', '2026-04-03', '2026-04-04', '2026-04-06', '2026-05-01', '2026-05-25', '2026-06-19', '2026-07-01', '2026-10-01', '2026-10-02', '2026-10-19', '2026-12-25', '2026-12-26'],
+    'BSE':  ['2026-01-26', '2026-03-06', '2026-04-02', '2026-04-14', '2026-05-01', '2026-10-02', '2026-10-23', '2026-11-12', '2026-12-25'],
+    'ASX':  ['2026-01-01', '2026-01-26', '2026-04-03', '2026-04-06', '2026-04-25', '2026-06-08', '2026-12-25', '2026-12-26']
+};
+
+const pool = ["America/Los_Angeles", "America/Chicago", "America/New_York", "UTC", "Europe/London", "Europe/Berlin", "Asia/Kolkata", "Asia/Hong_Kong", "Asia/Tokyo", "Australia/Sydney"];
+const DAY_MS = 86400000;
+let offset = 0, drag = false, startX = 0, initOff = 0;
+let anchor = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+const getZTime = (d, z) => new Date(d.toLocaleString('en-US', { timeZone: z }));
+const $ = id => document.getElementById(id);
+
+function init() {
+    pool.sort().forEach(tz => {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = tz;
+        if(tz === anchor) opt.selected = true;
+        $('local-anchor-select').appendChild(opt);
+    });
+    rows();
+    bind();
+}
+
+function rows() {
+    $('exchanges-timeline-grid').innerHTML = exchanges.filter(e => e.visible).map(e => `
+        <div class="zone-row" id="row-${e.id}">
+            <div class="zone-label-block">
+                <span class="zone-title">${e.name}</span>
+                <span class="zone-current-val" id="val-${e.id}">12:00 AM</span>
+            </div>
+            <div class="zone-track" id="track-${e.id}"></div>
+        </div>
+    `).join('');
+}
+
+function list() {
+    $('modal-exchanges-list').innerHTML = exchanges.map(e => `
+        <div class="list-item">
+            <span>${e.name}</span>
+            <input type="checkbox" ${e.visible ? 'checked' : ''} onchange="exchanges[${e.id}].visible=this.checked; rows(); tick();">
+        </div>
+    `).join('');
+}
+
+function getAbbr(d, z) {
+    const raw = d.toLocaleTimeString('en-US', { timeZone: z, timeZoneName: 'short' }).split(' ').pop();
+    if (!raw.includes('GMT') && !raw.includes('UTC') && !raw.includes('+') && !raw.includes('-')) return { 'Asia/Kolkata':'IST', 'Asia/Tokyo':'JST', 'Australia/Sydney':'AEST', 'Asia/Hong_Kong':'HKT' }[z] || raw;
+    const diff = (getZTime(d, z).getHours() - d.getUTCHours() + 24) % 24;
+    return { 'Europe/London': diff === 1 ? 'BST' : 'GMT', 'Europe/Berlin': diff === 2 ? 'CEST' : 'CET', 'UTC': 'UTC' }[z] || `UTC+${diff}`;
+}
+
+function isClosed(d, code) {
+    if (d.getDay() === 0 || d.getDay() === 6) return { closed: true, r: "Weekend" };
+    const str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    return (holidays[code] || []).includes(str) ? { closed: true, r: "Holiday" } : { closed: false };
+}
+
+function render(tr, label, sHr, eHr, base, sMs, e, cls) {
+    const s = new Date(base), o = new Date(base);
+    s.setHours(Math.floor(sHr), (sHr % 1) * 60, 0, 0);
+    o.setHours(Math.floor(eHr), (eHr % 1) * 60, 0, 0);
+    
+    const sUtc = s.getTime() - (getZTime(s, e.zone).getTime() - s.getTime());
+    const eUtc = o.getTime() - (getZTime(s, e.zone).getTime() - s.getTime());
+
+    if (eUtc > sMs && sUtc < (sMs + DAY_MS)) {
+        let lPct = ((sUtc - sMs) / DAY_MS) * 100, wPct = ((eUtc - sUtc) / DAY_MS) * 100;
+        if (lPct < 0) { wPct += lPct; lPct = 0; }
+        if (lPct + wPct > 100) wPct = 100 - lPct;
+
+        const b = document.createElement('div');
+        b.className = `session-block ${cls}`;
+        b.style.left = `${lPct}%`; b.style.width = `${wPct}%`;
+        b.textContent = label;
+        tr.appendChild(b);
+    }
+}
+
+function tick() {
+    const now = new Date(), aTime = getZTime(now, anchor), cTime = now.getTime() + offset, sMs = cTime - DAY_MS / 2;
+    
+    $('local-time').textContent = aTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    $('local-date').textContent = aTime.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+    $('local-abbr').textContent = getAbbr(now, anchor);
+
+    const dragged = Math.abs(offset) > 10000;
+    $('reset-timeline').classList.toggle('hidden', !dragged);
+    $('live-indicator').style.left = dragged ? `${((now.getTime() - sMs) / DAY_MS) * 100}%` : '50%';
+
+    const header = $('ticks-header'), ticks = [];
+    header.querySelectorAll('.tick-mark').forEach(m => m.remove());
+    
+    for (let i = -14; i <= 14; i++) {
+        const t = new Date(cTime + i * 3600000); t.setMinutes(0, 0, 0);
+        const pct = ((t.getTime() - sMs) / DAY_MS) * 100;
+        if (pct >= 0 && pct <= 100) {
+            ticks.push(pct);
+            const m = document.createElement('div'); m.className = 'tick-mark'; m.style.left = `${pct}%`;
+            m.textContent = getZTime(t, anchor).toLocaleTimeString([], { hour: 'numeric', hour12: true });
+            header.appendChild(m);
+        }
+    }
+
+    exchanges.forEach(e => {
+        if (!e.visible) return;
+        const vEl = $(`val-${e.id}`), tr = $(`track-${e.id}`), row = $(`row-${e.id}`);
+        if (!vEl || !tr) return;
+
+        const lD = getZTime(now, e.zone), vD = getZTime(new Date(cTime), e.zone);
+        const dec = lD.getHours() + lD.getMinutes() / 60;
+        const cState = isClosed(lD, e.code);
+        const active = dec >= e.open && dec < e.close && !cState.closed;
+
+        vEl.textContent = `${lD.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} ${getAbbr(now, e.zone)}`;
+        if (row) row.classList.toggle('market-active', active);
+
+        tr.innerHTML = '';
+        ticks.forEach(pos => {
+            const l = document.createElement('div'); l.className = 'grid-vertical-line'; l.style.left = `${pos}%`; tr.appendChild(l);
+        });
+
+        const base = new Date(vD.getFullYear(), vD.getMonth(), vD.getDate());
+        [new Date(base.getTime() - DAY_MS), base, new Date(base.getTime() + DAY_MS)].forEach(day => {
+            const check = isClosed(day, e.code);
+            if (check.closed) {
+                render(tr, `Closed (${check.r})`, 0, 24, day, sMs, e, 'closed-block');
+            } else {
+                if (e.pre < e.open) render(tr, "Pre-Mkt", e.pre, e.open, day, sMs, e, 'extended');
+                if (e.lS) {
+                    render(tr, "Open", e.open, e.lS, day, sMs, e, 'core');
+                    render(tr, "Lunch", e.lS, e.lE, day, sMs, e, 'extended');
+                    render(tr, "Open", e.lE, e.close, day, sMs, e, 'core');
+                } else {
+                    render(tr, "Core Hours", e.open, e.close, day, sMs, e, 'core');
+                }
+                if (e.post > e.close) render(tr, "Post-Mkt", e.close, e.post, day, sMs, e, 'extended');
+            }
+        });
+    });
+}
+
+function bind() {
+    const box = 'timeline-box', modal = 'config-modal';
+    const start = e => { if (e.target.closest('.control-btn') || e.target.closest('#local-anchor-select')) return; drag = true; startX = e.pageX || e.touches.pageX; initOff = offset; };
+    const move = e => { if (!drag) return; offset = initOff - (((e.pageX || e.touches.pageX) - startX) * (DAY_MS / ($(box).offsetWidth * 0.78))); tick(); };
+
+    $(box).addEventListener('mousedown', start); $(box).addEventListener('mousemove', move);
+    window.addEventListener('mouseup', () => drag = false);
+    $(box).addEventListener('touchstart', start, { passive: true }); $(box).addEventListener('touchmove', move, { passive: true });
+    window.addEventListener('touchend', () => drag = false);
+
+    $('reset-timeline').addEventListener('click', () => { offset = 0; tick(); });
+    $('open-config').addEventListener('click', () => { list(); $(modal).classList.remove('hidden'); });
+    $('close-config').addEventListener('click', () => $(modal).classList.add('hidden'));
+    $(modal).addEventListener('click', e => { if (e.target === $(modal)) $(modal).classList.add('hidden'); });
+    $('local-anchor-select').addEventListener('change', (e) => { anchor = e.target.value; tick(); });
+}
+
+init(); tick(); setInterval(tick, 1000);
+
+</script>
+</body></html>

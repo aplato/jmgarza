@@ -1,0 +1,537 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, cxenter, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	background: none repeat scroll 0 0 transparent;
+	border: 0 none;
+	font-size: 100%;
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+:root {
+	color-scheme: light;
+	--page-bg: #ffffff;
+	--text: #777777;
+	--link: #777777;
+	--link-visited: #666666;
+	--link-hover: #4a4a4a;
+	--accent: #8b7134;
+	--surface: #ffffff;
+	--surface-raised: #f0f0f0;
+	--border: #a5a5a5;
+	--input-bg: #ffffff;
+	--button-bg: #a5a5a5;
+	--button-text: #ffffff;
+	/* --container-background: #fff url(../img/bg.gif) repeat-y center;
+	--bottom-background: url(../img/bottom.gif); */
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme]) {
+		color-scheme: dark;
+		--page-bg: #2d2d2d;
+		--text: #cccccc;
+		--link: #cccccc;
+		--link-visited: #dddddd;
+		--link-hover: #ebb52d;
+		--accent: #ebb52d;
+		--surface: #1a1a1a;
+		--surface-raised: #3c3c3c;
+		--border: #454545;
+		--input-bg: #1a1a1a;
+		--button-bg: transparent;
+		--button-text: #cccccc;
+		--container-background: none;
+		--bottom-background: none;
+	}
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--page-bg: #ffffff;
+	--text: #777777;
+	--link: #777777;
+	--link-visited: #666666;
+	--link-hover: #4a4a4a;
+	--accent: #8b7134;
+	--surface: #ffffff;
+	--surface-raised: #f0f0f0;
+	--border: #a5a5a5;
+	--input-bg: #ffffff;
+	--button-bg: #a5a5a5;
+	--button-text: #ffffff;
+	/* --container-background: #fff url(../img/bg.gif) repeat-y center; */
+	/* --bottom-background: url(../img/bottom.gif); */
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--page-bg: #2d2d2d;
+	--text: #cccccc;
+	--link: #cccccc;
+	--link-visited: #dddddd;
+	--link-hover: #ebb52d;
+	--accent: #ebb52d;
+	--surface: #1a1a1a;
+	--surface-raised: #3c3c3c;
+	--border: #454545;
+	--input-bg: #1a1a1a;
+	--button-bg: transparent;
+	--button-text: #cccccc;
+	--container-background: none;
+	--bottom-background: none;
+}
+
+body {
+	background: var(--page-bg);
+	bottom: 0;
+	color: var(--text);
+	font: 12px arial, helvetica, sans-serif;
+	height: 100%;
+	left: 0;
+	line-height: 1;
+	margin: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+ol, ul {
+	list-style: none outside none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: none;
+}
+
+ins {
+	text-decoration: none;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td, th {
+	vertical-align: top;
+}
+
+article, aside, dialog, footer, header, section, nav, figure, figcaption {
+	display: block;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
+
+a:focus {
+	outline: thin dotted;
+}
+
+a, a:link, a:active {
+	color: var(--link);
+	text-decoration: none;
+}
+
+a:visited {
+	color: var(--link-visited);
+}
+
+a:hover {
+	border-color: var(--border);
+	border-left: none;
+	border-right: none;
+	border-style: solid;
+	color: var(--link-hover);
+}
+
+abbr, acronym {
+	cursor: help;
+}
+
+h1 {
+	font: italic small-caps 16pt georgia;
+	letter-spacing: 1px;
+}
+
+h2 {
+	font: italic 11px/16px "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Lucida, Arial, Helvetica, sans-serif;
+	letter-spacing: 1px;
+}
+
+h3 {
+	background-color: var(--surface-raised);
+	font: italic bold 12pt georgia;
+	height: auto;
+	letter-spacing: 1px;
+	line-height: 20px;
+	list-style: none;
+	margin-bottom: 0;
+	padding: 6px;
+}
+
+.box_title {
+	cursor: pointer;
+}
+
+.txt {
+	background: var(--input-bg);
+	border: 1px dotted var(--border);
+	color: var(--text);
+	width: 200px;
+}
+
+.btn, #themeToggle {
+	background: var(--button-bg);
+	border: 1px solid var(--border);
+	color: var(--button-text);
+	cursor: pointer;
+	padding: 0 6px;
+}
+
+.btn:hover, #themeToggle:hover {
+	background-color: var(--surface-raised);
+	border-color: var(--border);
+	color: var(--accent);
+}
+
+.f a {
+	margin-left: 16px;
+}
+
+.reader-publisher-module div {
+	margin-bottom: 16px;
+}
+
+.reader-publisher-module ul {
+	list-style: none;
+	margin: 8px 0 0 16px;
+}
+
+#joeLogo {
+	background: url(../img/joebox_onPoint.gif) center;
+	float: left;
+	height: 60px;
+	width: 80px;
+}
+
+
+#container {
+	background: var(--container-background);
+	color: var(--text);
+	font: normal 11px/16px "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Lucida, Arial, Helvetica, sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 781px;
+	overflow: visible;
+	width: 781px;
+	z-index: 100;
+}
+
+#intro {
+	margin-top: 6px;
+}
+
+#aColumn {
+	float: left;
+	margin: 0 0 6px;
+	text-align: justify;
+	width: 387px;
+}
+
+#secondColumn {
+	float: right;
+	margin: 0 0 6px 3px;
+	text-align: justify;
+	width: 387px;
+}
+
+#googley {
+	float: right;
+	height: 48px;
+	margin-right: 0;
+	padding: 6px;
+	position: relative;
+	width: 373px;
+}
+
+/*
+@media (prefers-color-scheme: dark) {
+	#googley{
+		border: 1px solid var(--border);
+	}
+	#pageHeader {
+		border: 1px solid var(--border);
+	}
+	#joeLogo {
+		border: 1px solid var(--border);
+	}
+}
+*/
+
+#pageHeader {
+	float: left;
+	height: 48px;
+	margin: 0 0 0 6px;
+	padding: 6px;
+	position: relative;
+	text-align: center;
+	width: 285px;
+}
+
+
+
+#pageHeader h1 a {
+	color: var(--link);
+	font-weight: bold;
+}
+
+#quote {
+	border-color: var(--border);
+	border-style: solid;
+	border-width: 1px 0;
+	color: var(--text);
+	font: italic 11px georgia;
+	letter-spacing: 1px;
+	margin: 6px 0;
+	padding: 6px;
+	text-align: center;
+}
+
+#footer {
+	float: left;
+	font-size: 75%;
+	padding: 6px;
+	text-align: center;
+	width: 767px;
+}
+
+
+#bottomDiv {
+	background: var(--bottom-background);
+	height: 42px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	width: 781px;
+}
+
+#agenda ul li ul li {
+	color: var(--text);
+	font: normal 11px/16px "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Lucida, Arial, Helvetica, sans-serif;
+	list-style: none;
+	margin: 8px 16px;
+	text-align: left;
+}
+
+#aColumn p, #secondColumn p {
+	margin: 6px;
+}
+
+.box {
+	border: 1px solid var(--border);
+	margin-bottom: 6px;
+}
+
+.trigger {
+	border: 1px solid var(--border);
+	cursor: pointer;
+}
+
+.trigger:hover {
+	background-color: var(--surface-raised);
+	border-color: var(--border);
+	padding-left: 2px;
+}
+
+p, ul, dl.collapsible dd, dl dd {
+	margin: 6px;
+}
+
+dl, dl.collapsible {
+	border: 1px solid var(--border);
+}
+
+dl.collapsible > dd {
+	display: none;
+}
+
+dl > dt {
+	background-color: var(--surface-raised);
+	color: var(--text);
+	cursor: pointer;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 0 0 6px;
+}
+
+dl.collapsible > dt {
+	background: url("../img/icons.png") no-repeat scroll 9px -590px var(--page-bg);
+	border-top: 1px solid var(--surface-raised);
+	padding: 0 0 0 25px;
+}
+
+dl.collapsible > dt:first-of-type {
+	border-top: none;
+}
+
+dl.collapsible > dt:hover {
+	background-position: 9px -640px;
+}
+
+dl.collapsible > dt.open {
+	background-position: 9px -788px;
+}
+
+dl.collapsible > dt.open + dd {
+	display: inline-block;
+}
+
+dl.collapsible dt.open, dl.collapsible dt:hover {
+	background-color: var(--surface-raised);
+	color: var(--accent);
+}
+
+@media (max-width: 800px), (orientation: landscape) and (max-height: 500px) {
+	html {
+		min-height: 100%;
+	}
+
+	body {
+		bottom: auto;
+		height: auto;
+		left: auto;
+		min-height: 100vh;
+		overflow-x: hidden;
+		overflow-y: auto;
+		position: relative;
+		right: auto;
+		top: auto;
+	}
+
+	#container {
+		box-sizing: border-box;
+		min-width: 0;
+		padding: 8px;
+		width: 100%;
+	}
+
+	#intro {
+		align-items: center;
+		display: grid;
+		grid-template-columns: 80px minmax(0, 1fr);
+	}
+
+	#joeLogo {
+		float: none;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	#pageHeader {
+		box-sizing: border-box;
+		float: none;
+		grid-column: 2;
+		grid-row: 1;
+		height: auto;
+		margin: 0;
+		min-width: 0;
+		width: auto;
+	}
+
+	#googley {
+		box-sizing: border-box;
+		float: none;
+		grid-column: 1 / -1;
+		height: auto;
+		padding: 6px 0;
+		width: auto;
+	}
+
+	#googley form {
+		display: flex;
+		gap: 4px;
+	}
+
+	#googley .txt {
+		flex: 1;
+		min-width: 0;
+		width: auto !important;
+	}
+
+	#googley br {
+		display: none;
+	}
+
+	#aColumn, #secondColumn {
+		float: none;
+		margin: 0 0 6px;
+		text-align: left;
+		width: 100%;
+	}
+
+	#footer {
+		box-sizing: border-box;
+		float: none;
+		width: 100%;
+	}
+
+	#bottomDiv {
+		height: auto;
+		width: 100%;
+	}
+
+	dl > dt {
+		height: auto;
+		line-height: 30px;
+		min-height: 30px;
+		padding-bottom: 0;
+		padding-top: 0;
+	}
+
+	dl.collapsible > dt.open + dd {
+		display: block;
+	}
+
+	#container a {
+		overflow-wrap: anywhere;
+	}
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+	#aColumn, #secondColumn {
+		float: left;
+		width: calc(50% - 3px);
+	}
+
+	#secondColumn {
+		float: right;
+	}
+}
