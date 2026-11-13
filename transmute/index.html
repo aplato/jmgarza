@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transmute — Alchemical Circle Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Symbols+2&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">🜚</span>
+      <div>
+        <h1 class="brand-title">Transmute</h1>
+        <p class="brand-subtitle">Alchemical Circle Gallery</p>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span id="pregen-status" class="status-pill" title="Background Web Worker pre-generation status" style="display: none;">
+        Buffer: Ready
+      </span>
+      <button id="toggle-tuner-btn" type="button" class="control-btn" aria-expanded="false">
+        ⚙️ Tuner (Dev)
+      </button>
+      <button id="toggle-theme-btn" type="button" class="control-btn" aria-label="Toggle color theme">
+        🌗 Theme
+      </button>
+    </div>
+  </header>
+
+  <div id="workspace-layout" class="workspace-layout">
+    <main class="gallery-column">
+      <section id="favorites-section" class="favorites-section" hidden>
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="fav-star-icon">★</span> Saved Favorites
+          </h2>
+          <span class="section-hint">Drag cards or use ← / → to reorder</span>
+        </div>
+        <div id="favorites-grid" class="circle-grid favorites-grid" role="list"></div>
+      </section>
+
+      <section id="gallery-section" class="gallery-section">
+        <div class="section-header">
+          <h2 class="section-title">∞ Stream</h2>
+          <span id="stream-count" class="section-hint">Loading circles…</span>
+        </div>
+        <div id="gallery-grid" class="circle-grid" role="list"></div>
+        <div id="scroll-sentinel" class="scroll-sentinel" aria-hidden="true">
+          <span>Channeling next page of transmutation circles…</span>
+        </div>
+      </section>
+    </main>
+
+    <aside id="dev-tuner-drawer" class="dev-tuner-drawer" hidden aria-label="Developer Weight Tuner">
+      <div id="dev-tuner-content"></div>
+    </aside>
+  </div>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
+
